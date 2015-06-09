@@ -10,10 +10,19 @@ Apache Tomcat is used for the webserver
 
 Clone the repository to your desktop
 
+To build the project:
+```gradle build
+```
+
+To run tests:
+```
+gradle test
+```
+
 To run the project, go to the directory containing build.gradle and run
 ```
 gradle bootRun
 ```
 
-The site will be available at localhost:8080
+The site will be available at the default location, which is probably localhost:8080
 
