@@ -11,16 +11,17 @@ Apache Tomcat is used for the webserver
 Clone the repository to your desktop
 
 To build the project:
-```gradle build
+```bash
+gradle build
 ```
 
 To run tests:
-```
+```bash
 gradle test
 ```
 
 To run the project, go to the directory containing build.gradle and run
-```
+```bash
 gradle bootRun
 ```
 
