@@ -1,13 +1,13 @@
 
-    # CS 1530 - SPRINT 2 DELIVERABLE
-    ## Coffee-specific Import and Inventory Tracking System
+# CS 1530 - SPRINT 2 DELIVERABLE
+## Coffee-specific Import and Inventory Tracking System
 
-    ### Karnbir Singh – Karnsingh214
-    ### Adam Rison – AdamRison
-    ### George Totolos – get13
-    ### Chris Meier – chrismeiercs
+### Karnbir Singh – Karnsingh214
+### Adam Rison – AdamRison
+### George Totolos – get13
+### Chris Meier – chrismeiercs
 
-    ### Due Date: June 24, 2015
+### Due Date: June 24, 2015
 
 
 
