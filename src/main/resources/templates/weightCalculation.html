@@ -12,8 +12,10 @@
 <form method="post" action="#"  th:action="@{/updateWeight}" th:object="${shipment}">
    <p th:text="'Price per unit: '+${pricePerUnit}" />
    <!--<output th:value="${pricePerUnit}" th:field="*{pricePerKg}" />-->
-    Confirm Weight: <input type="text" th:field="*{pricePerKg}" />
+    Confirm Price Per Kg: <input type="text" th:field="*{pricePerKg}" />
+    <br> </br>
     Enter shipment id: <input type="text" th:field="*{shipmentId}" />
+<br> </br>
     <button type="submit">Update Shipment</button>
     <button onclick="location.href='/weightCalc'">Cancel</button>
 </form>

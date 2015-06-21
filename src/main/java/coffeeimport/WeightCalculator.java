@@ -37,4 +37,8 @@ public class WeightCalculator {
     public void setWeightUnit(String weightUnit) {
         this.weightUnit = weightUnit;
     }
+
+    public double calcPricePerUnit(double cost, double weight){
+        return cost/weight;
+    }
 }

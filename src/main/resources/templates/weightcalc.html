@@ -11,11 +11,8 @@
 
     Enter Shipping cost: <input type="text" th:field="*{shippingCost}" />
     <br></br>
-     Enter total weight of shipment: <input type="text" th:field="*{weight}" />
-     <select th:field="*{weightUnit}">
-         <option value="kg">kg</option>
-         <option value="g">g</option>
-     </select>
+     Enter total weight of shipment (kg): <input type="text" th:field="*{weight}" />
+
     <button type="submit">Submit</button>
 </form>
 

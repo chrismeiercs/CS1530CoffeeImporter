@@ -27,16 +27,17 @@ public class WeightCalculatorController {
     @RequestMapping(value="/weightcalc", method=RequestMethod.POST)
     public  String weightSubmit(@ModelAttribute WeightCalculator weightCalculator, Model model, BindingResult bindingResult){
 
-        double pricePerUnit = weightCalculator.getShippingCost()/weightCalculator.getWeight();
+        double pricePerUnit = weightCalculator.calcPricePerUnit(weightCalculator.getShippingCost(),
+                weightCalculator.getWeight()) ;
 
-        //model.addAttribute("weightCalculator", weightCalculator);
+
         model.addAttribute("pricePerUnit", pricePerUnit);
         model.addAttribute("shipment", new Shipment());
         return "weightCalculation";
     }
 
     @RequestMapping(value="/updateWeight", method=RequestMethod.POST)
-    public  String weightpdate(@ModelAttribute Shipment shipment, Model model, BindingResult bindingResult){
+    public  String weightUpdate(@ModelAttribute Shipment shipment, Model model, BindingResult bindingResult){
         model.addAttribute("id", shipment.getShipmentId());
         model.addAttribute("price", shipment.getPricePerKg());
         if(shipment.updateShipment()){
