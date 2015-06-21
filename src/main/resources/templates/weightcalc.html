@@ -6,15 +6,18 @@
 </head>
 <body>
 <h1>Cost per Weight Calculator</h1>
-<!--<form method="post" action="#"  th:action="@{/weightcalc}" th:object="${weightCalc}">
-    Enter Shipping cost: <input type="text" name="shipping">
-    Enter total weight of shipment: <input type="text" name="weight">
-    <select>
-        <option value="kg">kg</option>
-        <option value="g">g</option>
-    </select>
 
-</form>-->
+<form method="post" action="#"  th:action="@{/weightcalc}" th:object="${weightCalculator}">
+
+    Enter Shipping cost: <input type="text" th:field="*{shippingCost}" />
+    <br></br>
+     Enter total weight of shipment: <input type="text" th:field="*{weight}" />
+     <select th:field="*{weightUnit}">
+         <option value="kg">kg</option>
+         <option value="g">g</option>
+     </select>
+    <button type="submit">Submit</button>
+</form>
 
 
 </body>

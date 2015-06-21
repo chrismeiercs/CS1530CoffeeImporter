@@ -5,6 +5,19 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
 <body>
-<!--<p th:text="'Shipping Cost: '+${weightCalc.shippingCost}"/>-->
+
+<!--<p th:text="'weight'+${weightCalculator.weight}" />
+<br> </br>
+<p th:text="'cost'+${weightCalculator.shippingCost}" />-->
+<form method="post" action="#"  th:action="@{/updateWeight}" th:object="${shipment}">
+   <p th:text="'Price per unit: '+${pricePerUnit}" />
+   <!--<output th:value="${pricePerUnit}" th:field="*{pricePerKg}" />-->
+    Confirm Weight: <input type="text" th:field="*{pricePerKg}" />
+    Enter shipment id: <input type="text" th:field="*{shipmentId}" />
+    <button type="submit">Update Shipment</button>
+    <button onclick="location.href='/weightCalc'">Cancel</button>
+</form>
+
+
 </body>
 </html>
