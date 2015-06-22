@@ -10,29 +10,31 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import javax.validation.constraints.AssertTrue;
-
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = CoffeeImportApplication.class)
 @WebAppConfiguration
-public class WeightCalculatorTest {
+public class NewShipmentTests {
 
-    WeightCalculator weightCalculator;
-
+    Shipment shipment;
     @Before
     public void setUp() throws Exception{
-        weightCalculator = new WeightCalculator();
+        shipment = new Shipment();
+    }
+
+    @Test(expected = Exception.class)
+    public void productCostGreaterThanTotalCost() throws Exception {
+        shipment.setProductCost(10);
+        shipment.setTotalCost(9);
+        shipment.calculateShippingCost();
     }
 
     @Test
-    public void calculatePricePerUnitTest(){
-        double cost = weightCalculator.calcPricePerUnit(5, 5);
-        Assert.assertEquals(1,cost,0);
+    public void calculateShippingCostTest() throws Exception {
+        shipment.setTotalCost(10);
+        shipment.setProductCost(5);
+        double shipmentCost = shipment.calculateShippingCost();
+        Assert.assertEquals(5,shipmentCost,0);
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void handleDivideByZero(){
-        weightCalculator.calcPricePerUnit(100,0);
-    }
 
 }

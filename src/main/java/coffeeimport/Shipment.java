@@ -2,7 +2,9 @@ package coffeeimport;
 
 import org.springframework.web.bind.annotation.ModelAttribute;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
 
 /**
  * Created by Chris on 6/20/2015.
@@ -14,6 +16,42 @@ public class Shipment {
     private Date dateRecieved;
     private String origin;
     private double weight;
+    private double shippingCost;
+    private double totalCost;
+    private LinkedList<Product> products;
+    private double productCost;
+
+    public double calculateShippingCost() throws Exception {
+
+        if(this.productCost > this.totalCost){
+            throw new Exception("Product costs can't be greater than the total cost");
+        }
+
+        this.shippingCost = this.totalCost - this.productCost;
+
+        return this.shippingCost;
+    }
+
+    public double getProductCost() {
+        return productCost;
+    }
+
+    public void setProductCost(double productCost) {
+        this.productCost = productCost;
+    }
+
+    public double getShippingCost() {
+        return this.shippingCost;
+    }
+
+    public double getTotalCost(){
+        return this.totalCost;
+    }
+
+    public void setTotalCost(double totalCost){
+        this.totalCost = totalCost;
+    }
+
 
     public void setWeight(double weight) {
         this.weight = weight;
@@ -55,6 +93,12 @@ public class Shipment {
     public void setShipmentId(String shipmentId) {
         this.shipmentId = shipmentId;
     }
+
+    public void setShippingCost(double shippingCost){
+        this.shippingCost = shippingCost;
+    }
+
+
 
     public boolean updateShipment(){
 
