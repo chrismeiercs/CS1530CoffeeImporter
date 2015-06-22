@@ -39,6 +39,10 @@ public class WeightCalculator {
     }
 
     public double calcPricePerUnit(double cost, double weight){
+        if(weight <= 0){
+            throw new IllegalArgumentException("Shipment weight must be greater than zero");
+        }
+
         return cost/weight;
     }
 }
