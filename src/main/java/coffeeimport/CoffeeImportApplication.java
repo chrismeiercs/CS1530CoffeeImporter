@@ -8,5 +8,10 @@ public class CoffeeImportApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(CoffeeImportApplication.class, args);
+
+        
+        ParseTemporary temp = new ParseTemporary();
+
+
     }
 }
