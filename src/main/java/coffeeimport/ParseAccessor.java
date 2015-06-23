@@ -36,7 +36,7 @@ public class ParseAccessor {
 
     public ParseAccessor(){
         //Need to assume an id and key;  Using mine (Adam's) until otherwise specified
-        Parse.initialize("NyVAmF4GHENom2dWu7mKBGUWk8HAhPpxPSbFcSMP", "cZQI9V32nbWCj29nbH68gknoCtr9hNJnS4HJRUxp");
+        Parse.initialize("NyVAmF4GHENom2dWu7mKBGUWk8HAhPpxPSbFcSMP", "cZQI9V32nbWCj29nbH68gknoCtr9hNJnS4HJRUxp");  //Keys no longer valid
     }
 
     /**
