@@ -8,18 +8,22 @@ import java.util.LinkedList;
 
 /**
  * Created by Chris on 6/20/2015.
+ * Updated by Adam on 6/22/2015.
  */
 public class Shipment {
+    /**
+     * Instantiate each case in the event one is not given a value
+     */
 
-    private String shipmentId;
-    private double pricePerKg;
-    private Date dateRecieved;
-    private String origin;
-    private double weight;
-    private double shippingCost;
-    private double totalCost;
+    private String shipmentId ="";
+    private double pricePerKg = -1;
+    private Date dateRecieved = null;
+    private String origin = "";
+    private double weight = -1;
+    private double shippingCost = -1;
+    private double totalCost = -1;
     private LinkedList<Product> products;
-    private double productCost;
+    private double productCost = -1;
 
     public double calculateShippingCost() throws Exception {
 
