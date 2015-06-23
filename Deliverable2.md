@@ -33,4 +33,6 @@
 
 ## User Story Decisions
 
+After talking with the customer, we were able to get a better idea of what they wanted. We gathered that parts of the system where to
+
 ## Testing
