@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: org.springframework.boot:spring-boot-starter-mobile:1.2.3.RELEASE">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-starter-mobile/1.2.3.RELEASE/44c65d5879addbcbc7d9245e196bb5a9713e83a0/spring-boot-starter-mobile-1.2.3.RELEASE.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-starter-mobile/1.2.3.RELEASE/c3c4a6daaa0f19b1d291a4ff39da3be08be893e5/spring-boot-starter-mobile-1.2.3.RELEASE-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

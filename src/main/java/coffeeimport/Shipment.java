@@ -74,9 +74,7 @@ public class Shipment {
         return origin;
     }
 
-    public String getShipmentId() {
-        return shipmentId;
-    }
+    public String getShipmentId() { return shipmentId; }
 
     public void setDateRecieved(Date dateRecieved) {
         this.dateRecieved = dateRecieved;
