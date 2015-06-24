@@ -23,7 +23,7 @@ public class ParseAccessorTests {
      */
     @Before
     public void instantiate() throws Exception{
-        parseAccessor = new ParseAccessor("NyVAmF4GHENom2dWu7mKBGUWk8HAhPpxPSbFcSMP", "cZQI9V32nbWCj29nbH68gknoCtr9hNJnS4HJRUxp");
+        parseAccessor = new ParseAccessor("lXpYJrImjyl3YSKDvxX9R6H3GGqIKQrB6WbI6Eu1", "dRwFZFBIxUiHP8nL3JYKsjtJpCLX1SZCl7Zez5C3");
         testShipment = new Shipment();
         testProduct = new Product();
        // date.setTime(1000000000);
@@ -34,7 +34,7 @@ public class ParseAccessorTests {
         testShipment.setShipmentId("Id");
         testShipment.setShippingCost(16.00);
         testShipment.setTotalCost(21.21);
-        testShipment.setDateRecieved(date);
+        testShipment.setDateReceived(date);
         testShipment.setWeight(7.2);
 
 

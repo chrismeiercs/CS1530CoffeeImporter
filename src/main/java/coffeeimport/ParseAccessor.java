@@ -36,7 +36,7 @@ public class ParseAccessor {
 
     public ParseAccessor(){
         //Need to assume an id and key;  Using mine (Adam's) until otherwise specified
-        Parse.initialize("NyVAmF4GHENom2dWu7mKBGUWk8HAhPpxPSbFcSMP", "cZQI9V32nbWCj29nbH68gknoCtr9hNJnS4HJRUxp");
+        Parse.initialize("lXpYJrImjyl3YSKDvxX9R6H3GGqIKQrB6WbI6Eu1", "dRwFZFBIxUiHP8nL3JYKsjtJpCLX1SZCl7Zez5C3");
     }
 
     /**
@@ -58,7 +58,7 @@ public class ParseAccessor {
         inventoryShipment.put("ShippingCost", shipment.getShippingCost());
         inventoryShipment.put("Weight", shipment.getWeight());
         inventoryShipment.put("Origin", shipment.getOrigin());
-       // inventoryShipment.put("Date", shipment.getDateRecieved());
+       // inventoryShipment.put("Date", shipment.getDateReceived());
         inventoryShipment.put("PricePerKg", shipment.getPricePerKg());
 
         inventoryShipment.saveInBackground(new SaveCallback() {
