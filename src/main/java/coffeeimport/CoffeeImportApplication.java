@@ -31,7 +31,7 @@ public class CoffeeImportApplication {
         //p.deleteShipment(nop);
         */
 
-        Shipment testShipment = new Shipment();
+       /* Shipment testShipment = new Shipment();
         testShipment.setOrigin("Canada");
         testShipment.setPricePerKg(2.0);
         testShipment.setProductCost(4.1);
@@ -47,7 +47,7 @@ public class CoffeeImportApplication {
 
         Product testProduct = new Product();
         p.updateProduct(testProduct);
-
+        */
 
 
     }

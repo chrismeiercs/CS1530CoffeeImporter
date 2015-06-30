@@ -17,6 +17,8 @@ public class Shipment {
      * Instantiate each case in the event one is not given a value
      */
 
+    //Todo Create appropriate default date
+
     private String shipmentId ="";
     private double pricePerKg = -1;
     private Date dateReceived = null;
