@@ -21,14 +21,33 @@ public class CoffeeImportApplication {
         *  Please ignore the following but do not delete any of it.
         *  For some reason, Testing Parse function have no effect
         *  and must be used in an actual program file to see results.
-        */
+
         Shipment nop = new Shipment();
         p.shipmentCreationExampleMethod(nop);
 
-        nop.setShipmentId("Le'mare");
+        nop.setShipmentId("La mer");
         p.updateShipment(nop);
 
-        p.deleteShipment(nop);
+        //p.deleteShipment(nop);
+        */
+
+        Shipment testShipment = new Shipment();
+        testShipment.setOrigin("Canada");
+        testShipment.setPricePerKg(2.0);
+        testShipment.setProductCost(4.1);
+        testShipment.setShipmentId("Id");
+        testShipment.setShippingCost(16.00);
+        testShipment.setTotalCost(21.21);
+        //testShipment.setDateReceived(date);
+        testShipment.setWeight(7.2);
+
+        p.updateShipment(testShipment);
+
+
+
+        Product testProduct = new Product();
+        p.updateProduct(testProduct);
+
 
 
     }

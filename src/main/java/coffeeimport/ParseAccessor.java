@@ -237,28 +237,30 @@ public class ParseAccessor {
      * @return Returns true if there were no errors
      */
 
-    private boolean updateShipmentList(String shipment, String product, boolean deletion){
+    private boolean updateShipmentList(String shipment, final String product, final boolean deletion){
         boolean updateSuccess;
         ParseQuery<ParseObject> query  = ParseQuery.getQuery("Shipments");
         query.whereEqualTo("ShipmentID", shipment);
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> list, ParseException e) {
-                if(list.size()<=0){
-                    //Todo This shipment does not exist, inform user
-                    success = false;
-                }
-                else if(list.size()>1){
-                    //Todo Handle this case where there is more than one shipment with that ID
-                    success = false;
-                }
-                else{       //Only one shipment matched
-                    if(!deletion) {        //This is an addition; Append the product to the Shipment's product array in Parse
-                        list.get(0).add("Products", product);
+                if(e==null && list!=null) {
+                    if (list.size() <= 0) {
+                        //Todo This shipment does not exist, inform user
+                        success = false;
+                    } else if (list.size() > 1) {
+                        //Todo Handle this case where there is more than one shipment with that ID
+                        success = false;
+                    } else {       //Only one shipment matched
+                        if (!deletion) {        //This is an addition; Append the product to the Shipment's product array in Parse
+                            list.get(0).add("Products", product);
+                        } else {                   //This is a deletion; Remove the product from the list
+                            list.get(0).removeAll("Products", Arrays.asList(product));
+                        }
                     }
-                    else{                   //This is a deletion; Remove the product from the list
-                        list.get(0).removeAll("Products", Arrays.asList(product));
-                    }
+                }
+                else{   //If this is the case, something bad has happened;  One such case, no such shipment exists
+                    success = false;
                 }
             }
         });

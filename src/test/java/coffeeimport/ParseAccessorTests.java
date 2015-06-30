@@ -73,10 +73,10 @@ public class ParseAccessorTests {
      * Test Verifies that Shipment Object is deleted from Parse Database
      */
 
-    @Test
-    public void shipmentDeletion(){
-        Assert.assertTrue(parseAccessor.deleteShipment(testShipment));
-    }
+    //@Test
+    //public void shipmentDeletion(){
+      //  Assert.assertTrue(parseAccessor.deleteShipment(testShipment));
+    //}
 
     /**
      * Test Verifies that Product Object is deleted from Parse Database
