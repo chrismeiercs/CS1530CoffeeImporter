@@ -37,7 +37,7 @@ public class ParseAccessorTests {
         testShipment.setDateReceived(date);
         testShipment.setWeight(7.2);
 
-
+        parseAccessor.updateShipment(testShipment);
     }
 
     /**

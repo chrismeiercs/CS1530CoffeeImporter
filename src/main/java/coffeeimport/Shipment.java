@@ -1,5 +1,6 @@
 package coffeeimport;
 
+import org.parse4j.ParseObject;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 import java.util.ArrayList;
@@ -9,6 +10,7 @@ import java.util.LinkedList;
 /**
  * Created by Chris on 6/20/2015.
  * Updated by Adam on 6/22/2015.
+ * "                " 6/29/2015.
  */
 public class Shipment {
     /**
@@ -82,6 +84,8 @@ public class Shipment {
         return shipmentId;
     }
 
+    public LinkedList<Product> getProducts(){ return products; }
+
     public void setDateReceived(Date dateReceived) {
         this.dateReceived = dateReceived;
     }
@@ -104,6 +108,10 @@ public class Shipment {
 
 
 
+    //Todo add product addition
+
+
+    //Todo
     public boolean updateShipment(){
 
         return true;

@@ -21,7 +21,7 @@ public class CoffeeImportApplication {
         *  Please ignore the following but do not delete any of it.
         *  For some reason, Testing Parse function have no effect
         *  and must be used in an actual program file to see results.
-        *
+        */
         Shipment nop = new Shipment();
         p.shipmentCreationExampleMethod(nop);
 
@@ -29,7 +29,7 @@ public class CoffeeImportApplication {
         p.updateShipment(nop);
 
         p.deleteShipment(nop);
-        */
+
 
     }
 }
