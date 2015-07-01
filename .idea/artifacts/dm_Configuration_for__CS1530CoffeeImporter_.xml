@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="dm.config" name="dm Configuration for 'CS1530CoffeeImporter'">
+    <output-path>$PROJECT_DIR$/out/artifacts/dm_Configuration_for__CS1530CoffeeImporter_</output-path>
+    <root id="root">
+      <element id="packaging-for-dm-config" module="CS1530CoffeeImporter" />
+    </root>
+  </artifact>
+</component>

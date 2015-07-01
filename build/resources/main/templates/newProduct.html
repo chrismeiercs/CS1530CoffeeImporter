@@ -1,0 +1,23 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>New Product</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+</head>
+<body>
+<h1>New Product</h1>
+<form method="post" action="#"  th:action="@{/newproduct}" th:object="${product}">
+
+    Enter Product ID: <input type="text" th:field="*{productId}" />
+    <br></br>
+    Enter Name: <input type="text" th:field="*{productName}" />
+    <br></br>
+    Enter Product Cost: <input type="text" th:field="*{productCost}" />
+
+    <button type="submit">Submit</button>
+</form>
+
+
+</body>
+</html>
