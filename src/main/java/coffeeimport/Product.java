@@ -21,6 +21,17 @@ public class Product
     private boolean hasBeenSold = false;
     private double priceSold = -1;
 
+    // Constructor -- Is this needed??
+    Product ()
+    {
+        productId = "";
+        shipmentId = "";
+        productName = "";
+        productCost = -1;
+        hasBeenSold = false;
+        priceSold = -1;
+    }
+
 
     public String getProductId()    { return productId;}
     public String getShipmentId()   { return shipmentId; } // Get from elsewhere?
