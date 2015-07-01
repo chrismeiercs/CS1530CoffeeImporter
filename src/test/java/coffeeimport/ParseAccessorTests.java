@@ -3,6 +3,7 @@ package coffeeimport;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.Assert;
+import org.parse4j.Parse;
 
 import java.util.Date;
 
@@ -23,6 +24,7 @@ public class ParseAccessorTests {
      */
     @Before
     public void instantiate() throws Exception{
+        // Adam's ID:
         parseAccessor = new ParseAccessor("lXpYJrImjyl3YSKDvxX9R6H3GGqIKQrB6WbI6Eu1", "dRwFZFBIxUiHP8nL3JYKsjtJpCLX1SZCl7Zez5C3");
         testShipment = new Shipment();
         testProduct = new Product();
