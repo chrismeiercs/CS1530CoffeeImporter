@@ -1,0 +1,78 @@
+<!-- Created by George Totolos 6/28/2015 -->
+
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Coffee Import and Inventory Management</title>
+    <link rel="stylesheet" href="styles/style.css">
+    <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script src="scripts/scripts.js"></script>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+
+<h1>Coffee Import Tracker</h1>
+
+<!-- <div class = "tabs"> -->
+    <ul class="tabs">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#new-shipment">New Shipment</a></li>
+        <li><a href="#new-product">New Product</a></li>
+        <li><a href="#view-inventory">View Inventory</a></li>
+    </ul>
+
+    <div class=tab-content">
+        <div class="tab" id="home">
+            <h2>Home</h2>
+            <p>Home dataHome dataHome dataHome dataHome dataHome dataHome dataHome dataHome dataHome dataHome dataHome dataHome dataHome
+                Home dataHome dataHome dataHome dataHome dataHome dataHome dataHome dataHome datadataHome dataHome dataHome dataHome dataHome
+                dataHome dataHome dataHome dataHome data
+                Home dataHome dataHome dataHome dataHome dataHome dataHome dataHome dataHome dataHome dataHome dataHome dataHome dataHome
+                Home dataHome dataHome dataHome dataHome dataHome dataHome dataHome dataHome datadataHome dataHome dataHome dataHome dataHome
+                dataHome dataHome dataHome dataHome data
+            </p>
+        </div>
+
+        <div class="tab" id="new-shipment">
+            <h2>New Shipment</h2>
+
+            <form method="post" action="#"  th:action="@{/newshipment}" th:object="${shipment}">
+            Enter Shipment ID: <input type="text" th:field="*{shipmentId}" />
+            <br></br>
+            Enter Total Cost: <input type="text" th:field="*{totalCost}" />
+            <br></br>
+            Enter Cost of Products: <input type="text" th:field="*{productCost}" />
+            <br></br>
+            <button type="submit">Submit</button>
+            </form>
+        </div>
+
+        <div class="tab" id="new-product">
+            <h2>New Product</h2>
+            <p> New product dataNew product dataNew product dataNew product dataNew product dataNew product dataNew product dataNew product data
+                New product dataNew product dataNew product dataNew product dataNew product dataNew product dataNew product dataNew product data
+                New product dataNew product dataNew product dataNew product dataNew product dataNew product dataNew product dataNew product data
+                New product dataNew product dataNew product dataNew product dataNew product dataNew product dataNew product data
+                New product dataNew product dataNew product dataNew product dataNew product dataNew product dataNew product dataNew product data
+                New product dataNew product dataNew product dataNew product dataNew product
+                New product dataNew product dataNew product dataNew product dataNew product dataNew product dataNew product dataNew product data
+                New product dataNew product dataNew product dataNew product dataNew product dataNew product dataNew product dataNew product data
+                New product dataNew product dataNew product dataNew product dataNew product
+            </p>
+        </div>
+
+        <div class="tab" id="view-inventory">
+            <h2>View Inventory</h2>
+            <p> view inventory dataview inventory dataview inventory dataview inventory dataview inventory dataview inventory dataview inventory dataview inventory data
+                view inventory dataview inventory dataview inventory dataview inventory dataview inventory dataview inventory data
+                view inventory dataview inventory dataview inventory dataview inventory dataview inventory dataview inventory dataview inventory dataview inventory data
+                view inventory dataview inventory dataview inventory dataview inventory dataview inventory data
+            </p>
+        </div>
+
+    </div>
+<!-- </div>> -->
+
+</body>
+</html>

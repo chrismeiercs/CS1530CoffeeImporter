@@ -1,0 +1,43 @@
+
+body {
+    background: SteelBlue;
+    color: DarkSlateGray;
+    font-family: Geneva, Tahoma, sans-serif;
+}
+
+h1 {
+    color: White;
+}
+p {
+    line-height: 1.5;
+}
+.tabs {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.tabs li {
+    display: inline-block;
+}
+.tabs a {
+    background: LightSteelBlue;
+    border-radius: 3px 3px 0 0;
+    color: White;
+    display: block;
+    padding: 0.5em 1em;
+    text-decoration: none;
+}
+.tabs a.current {
+    background: GhostWhite;
+    color: SteelBlue;
+}
+.tabs a:hover {
+    background: Tomato;
+}
+.tab {
+    background: White;
+    border: 5px solid GhostWhite;
+    padding: 1em;
+}
+
+
