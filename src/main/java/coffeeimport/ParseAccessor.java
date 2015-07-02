@@ -142,7 +142,7 @@ public class ParseAccessor {
 
         boolean productSuccess;
         ParseObject inventoryProduct = new ParseObject("Products");
-        inventoryProduct.put("shipmentID",product.getProductId());
+        inventoryProduct.put("ProductID",product.getProductId());
         inventoryProduct.put("ProductName",product.getProductName());
         inventoryProduct.put("ProductCost",product.getProductCost());
         inventoryProduct.put("Sold", product.getHasBeenSold());
@@ -253,7 +253,9 @@ public class ParseAccessor {
                         success = false;
                     } else {       //Only one shipment matched
                         if (!deletion) {        //This is an addition; Append the product to the Shipment's product array in Parse
-                            list.get(0).add("Products", product);
+                            //Todo, this line causes an error right now
+                            //list.get(0).add("Products", product);
+
                         } else {                   //This is a deletion; Remove the product from the list
                             list.get(0).removeAll("Products", Arrays.asList(product));
                         }

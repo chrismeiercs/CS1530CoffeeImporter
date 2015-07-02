@@ -21,13 +21,17 @@ public class Shipment {
 
     private String shipmentId ="";
     private double pricePerKg = -1;
-    private Date dateReceived = null;
+    private Date dateReceived = new Date(0);    //Should reference January 1st, 1970
     private String origin = "";
     private double weight = -1;
     private double shippingCost = -1;
     private double totalCost = -1;
-    private LinkedList<Product> products;
+    private LinkedList<Product> products = new LinkedList<Product>();
     private double productCost = -1;
+
+
+    //Todo this method cannot be accessed by some classes
+
 
     public double calculateShippingCost() throws Exception {
 
@@ -39,6 +43,10 @@ public class Shipment {
 
         return this.shippingCost;
     }
+
+    /**
+     * This are all of our Setter and getter methods
+     */
 
     public double getProductCost() {
         return productCost;
@@ -109,11 +117,23 @@ public class Shipment {
     }
 
 
+    /**
+     *
+     * @param p - Product to be added this shipment's inventory
+     * @return  True upon successful addition; False upon Failure
+     */
+    //Todo Might need modification
+    public boolean addProductToShipment(Product p){
+        boolean result = false;
 
-    //Todo add product addition
+        products.add(p);
+        if(products.add(p)){
+            result = true;
+        }
+        return result;
+    }
 
-
-    //Todo
+    //Todo  What was this supposed to do?
     public boolean updateShipment(){
 
         return true;

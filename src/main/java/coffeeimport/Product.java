@@ -10,6 +10,7 @@ import java.util.LinkedList;
  * Created by Chris on 6/20/2015. 
  * George Totolos 6/22/2015
  * Copied from George's Branch 6/29/2015
+ * Modified by Adam 7/2/2015
  *
  */
 public class Product
@@ -20,7 +21,11 @@ public class Product
     private double productCost = -1;  // From shipment?
     private boolean hasBeenSold = false;
     private double priceSold = -1;
+    private double productWeight = -1;
 
+    /**
+     *  Getter Methods
+     */
 
     public String getProductId()    { return productId;}
     public String getShipmentId()   { return shipmentId; } // Get from elsewhere?
@@ -28,7 +33,12 @@ public class Product
     public double getProductCost()   { return productCost; }
     public boolean getHasBeenSold() { return hasBeenSold; }
     public double getPriceSold()    { return priceSold; }
+    public double getProductWeight()   {return productWeight; }
 
+
+    /**
+    *  Setter Methods
+    */
 
     public void setProductId(String productId)      { this.productId = productId;}
     public void setShipmentId(String shipmentId)    { this.shipmentId = shipmentId; }
@@ -36,6 +46,7 @@ public class Product
     public void setProductCost(double productCost)   { this.productCost = productCost; }
     public void setHasBeenSold(boolean hasBeenSold) { this.hasBeenSold = hasBeenSold; }
     public void setPriceSold(double priceSold)      { this.priceSold = priceSold; }
+    public void setProductWeight(double weight)     { this.productWeight = weight; }
 
 
     public boolean updateProduct(){ return true; }
