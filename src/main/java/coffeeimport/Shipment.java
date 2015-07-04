@@ -13,7 +13,7 @@ public class Shipment {
 
     private String shipmentId;
     private double pricePerKg;
-    private Date dateRecieved;
+    private Date dateReceived;
     private String origin;
     private double weight;
     private double shippingCost;
@@ -61,8 +61,8 @@ public class Shipment {
         return weight;
     }
 
-    public Date getDateRecieved() {
-        return dateRecieved;
+    public Date getDateReceived() {
+        return dateReceived;
     }
 
     @ModelAttribute("pricePerKg")
@@ -79,7 +79,7 @@ public class Shipment {
     }
 
     public void setDateRecieved(Date dateRecieved) {
-        this.dateRecieved = dateRecieved;
+        this.dateReceived = dateRecieved;
     }
 
     public void setOrigin(String origin) {
