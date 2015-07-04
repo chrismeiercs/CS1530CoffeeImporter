@@ -5,7 +5,7 @@
       <GradleProjectSettings>
         <option name="distributionType" value="LOCAL" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="gradleHome" value="$PROJECT_DIR$/../../../CS/GradleStuff/gradle-2.4" />
+        <option name="gradleHome" value="$PROJECT_DIR$/../../Stuff/gradle-2.4" />
         <option name="gradleJvm" value="#JAVA_HOME" />
         <option name="modules">
           <set>
