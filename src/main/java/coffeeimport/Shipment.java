@@ -120,11 +120,16 @@ public class Shipment {
     /**
      *
      * @param p - Product to be added this shipment's inventory
+     *          Also, updates product's shipmentId if it has not already been set
      * @return  True upon successful addition; False upon Failure
      */
     //Todo Might need modification
     public boolean addProductToShipment(Product p){
         boolean result = false;
+
+        if(p.getShipmentId().equals("")){
+            p.setShipmentId(shipmentId);
+        }
 
         products.add(p);
         if(products.add(p)){
