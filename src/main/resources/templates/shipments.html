@@ -25,9 +25,14 @@
 </ul>
 
 <div class="content">
-    <h2>Shipments</h2>
+    <h2>Shipments |
+        <!-- Inventory Management buttons -->
+        <a href="#newShipmentModal" class="btn">New Shipment</a>
+        <a href="#veiwProductsModal" class="btn">View a Shipment's Products</a>
+    </h2>
     <p>
-        <!-- Product Table-->
+
+<!-- MAIN TABLE: Display table from external script (scripts.js) -->
     <div class=table-class" id="table-container">
         <table id="output-table">
             <tr>
@@ -43,10 +48,43 @@
         </table>
     </div>
 
-    <!-- Get entries from Parse's Product database-->
+<!-- Get entries from Parse's Product database-->
     <script>
         getShipmentsTable();
     </script>
+
+
+
+<!-- BUTTON ACTIVATED MODAL WINDOWS: Forms for user to create a new product, modify, or remove -->
+
+    <!----------------------------------- New Product ----------------------------------->
+    <div id="newProductModal" class="modalDialog">
+        <div>
+            <a href="#close" title="Close" class="close">X</a>
+            <h2>New Product Entry</h2>
+            <form action="parse-form" onsubmit="submitProduct();">
+                <p><input placeholder="Product ID" id="add-id" type="text" required></p>
+                <p><input placeholder="Name of Product" id="add-name" type="text" required></p>
+                <p><input placeholder="Weight" id="add-weight" type="Number" required></p>
+                <p><input placeholder="Cost of Product" id="add-cost" type="number" required></p>
+                <p> Product sold?
+                    <select id="add-sold">
+                        <option value="false">No</option>
+                        <option value="true">Yes</option>
+                    </select>
+                </p>
+                <p><input placeholder="Price Sold" id="add-priceSold" type="number"></p>
+                <p><input placeholder="Shipment ID" id="add-shipmentId" type="text"></p>
+                <p><input id="parse-submit" type="submit"></p>
+            </form>
+        </div>
+    </div>
+
+<!-- SCRIPTS: Javascript/jquery to control parse inputs, outputs, modifications.  -->
+
+
+
+
 
     </p>
 
