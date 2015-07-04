@@ -72,10 +72,10 @@
                 <a href="#close" title="Close" class="close">X</a>
                 <h2>New Product Entry</h2>
                 <form action="parse-form" onsubmit="submitProduct();">
-                    <p><input placeholder="Product ID" id="add-id" type="text"></p>
-                    <p><input placeholder="Name of Product" id="add-name" type="text"></p>
-                    <p><input placeholder="Weight" id="add-weight" type="Number"></p>
-                    <p><input placeholder="Cost of Product" id="add-cost" type="number"></p>
+                    <p><input placeholder="Product ID" id="add-id" type="text" required></p>
+                    <p><input placeholder="Name of Product" id="add-name" type="text" required></p>
+                    <p><input placeholder="Weight" id="add-weight" type="Number" required></p>
+                    <p><input placeholder="Cost of Product" id="add-cost" type="number" required></p>
                     <p> Product sold?
                         <select id="add-sold">
                             <option value="false">No</option>
@@ -101,11 +101,11 @@
                 <a href="#close" title="Close" class="close">X</a>
                 <h2>Enter Product ID to Modify</h2>
                 <form name="modifyForm" action="parse-form" onsubmit="modifyProduct();">
-                    <p><input name="idNAME" placeholder="Product ID" id="modify-id" type="text">
+                    <p><input name="idNAME" placeholder="Product ID" id="modify-id" type="text" required>
                         <button onclick="generateProducts();">Find Product</button></p>
-                    <p><input name="nameNAME" placeholder="Name of Product" id="modify-name" type="text"></p>
-                    <p><input name="weightNAME" placeholder="Weight" id="modify-weight" type="Number"></p>
-                    <p><input name="costNAME" placeholder="Cost of Product" id="modify-cost" type="number"></p>
+                    <p><input name="nameNAME" placeholder="Name of Product" id="modify-name" type="text" required></p>
+                    <p><input name="weightNAME" placeholder="Weight" id="modify-weight" type="Number" required></p>
+                    <p><input name="costNAME" placeholder="Cost of Product" id="modify-cost" type="number" required></p>
                     <p> Product sold?
                         <select name="soldNAME" id="modify-sold">
                             <option value="false">No</option>
