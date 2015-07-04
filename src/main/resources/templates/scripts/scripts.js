@@ -1,24 +1,5 @@
 // George Totolos 7-2-2015
 
-function modifyProduct()
-{
-    var Products = Parse.Object.extend("Products");
-    var query = new Parse.Query(Products);
-    query.equalTo("DriverID", "9");
-    query.first({
-        success: function(object) {
-
-            object.set("DName", "aaaa");
-            object.save();
-
-
-        },
-        error: function(error) {
-            alert("Error: " + error.code + " " + error.message);
-        }
-    });
-}
-
 
 function getProductTable()
 {
@@ -47,6 +28,7 @@ function getProductTable()
                 priceSold = priceSold.toFixed(2);
                 var weight = results[i].get("Weight");
                 weight = weight.toFixed(2);
+                var shipmentId = results[i].get("ShipmentID");
 
                 var cell1 = row.insertCell(0);
                 var cell2 = row.insertCell(1);
@@ -54,12 +36,14 @@ function getProductTable()
                 var cell4 = row.insertCell(3);
                 var cell5 = row.insertCell(4);
                 var cell6 = row.insertCell(5);
+                var cell7 = row.insertCell(6);
                 cell1.innerHTML = id;
                 cell2.innerHTML = name;
                 cell3.innerHTML = weight;
                 cell4.innerHTML = cost;
                 cell5.innerHTML = sold;
                 cell6.innerHTML = priceSold;
+                cell7.innerHTML = shipmentId;
 
 
                 rowCount = rowCount + 1;
