@@ -39,9 +39,9 @@ public class ParseAccessor {
 
     public ParseAccessor(){
         //Need to assume an id and key;  Using mine (Adam's) until otherwise specified
-    //    Parse.initialize("lXpYJrImjyl3YSKDvxX9R6H3GGqIKQrB6WbI6Eu1", "dRwFZFBIxUiHP8nL3JYKsjtJpCLX1SZCl7Zez5C3");
+        Parse.initialize("lXpYJrImjyl3YSKDvxX9R6H3GGqIKQrB6WbI6Eu1", "dRwFZFBIxUiHP8nL3JYKsjtJpCLX1SZCl7Zez5C3");
         // George's ID & Key
-        Parse.initialize("lXpYJrImjyl3YSKDvxX9R6H3GGqIKQrB6WbI6Eu1", "tmfM1mnCsFEE9onzPSAqwKubvgKakqPppNx8dnsq");
+     //   Parse.initialize("lXpYJrImjyl3YSKDvxX9R6H3GGqIKQrB6WbI6Eu1", "tmfM1mnCsFEE9onzPSAqwKubvgKakqPppNx8dnsq");
     }
 
 

@@ -1,0 +1,220 @@
+<!-- Created by George Totolos 7-2-2015 -->
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Inventory</title>
+
+    <link rel="stylesheet" href="styles/menu.css">
+    <link rel="stylesheet" href="styles/style.css">
+    <script src="//www.parsecdn.com/js/parse-1.4.2.min.js"></script>
+    <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script src="scripts/scripts.js"></script>          <!-- External javascript/jquery to handle tabbing -->
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+</head>
+<body>
+<script>
+    // Access Parse database (ID, key)
+    Parse.initialize("lXpYJrImjyl3YSKDvxX9R6H3GGqIKQrB6WbI6Eu1", "tmfM1mnCsFEE9onzPSAqwKubvgKakqPppNx8dnsq");
+</script>
+<h1>Coffee Import Tracker</h1>
+
+<!-- Navigation menu -->
+<ul class="nav">
+    <li><a href="main.html">Home</a></li>
+    <li class="current"><a href="inventory.html">Inventory</a></li>
+    <li><a href="shipments.html">Shipments</a></li>
+</ul>
+
+<!-- Home page contents -->
+<div class="content">
+
+    <h2>
+        Inventory |
+        <!-- Button to open New Product form -->
+        <!--<a href="#openModal"><button>New Product</button></a> -->
+        <a href="#newProductModal" class="btn">New Product</a>
+        <a href="#modifyProductModal" class="btn">Modify Product</a>
+        <a href="#deleteProductModal" class="btn">Remove Product</a>
+    </h2>
+    <p>
+
+        <!-- Modify Product modal window -->
+        <div id="modifyProductModal" class="modalDialog">
+            <div>
+                <a href="#close" title="Close" class="close">X</a>
+                <h2>Enter Product ID to Remove</h2>
+
+                <form action="parse-form" onsubmit="modifyProduct();">
+                    <p><input placeholder="Product ID" id="modify-id" type="text"> <button onclick="generateProducts()">Find </button>
+                    <p><input placeholder="Name of Product" id="modify-name" type="text"></p>
+                    <p><input placeholder="Weight" id="modify-weight" type="Number"></p>
+                    <p><input placeholder="Cost of Product" id="modify-cost" type="number"></p>
+                    <p> Product sold?
+                        <select id="modify-sold">
+                            <option value="false">No</option>
+                            <option value="true">Yes</option>
+                        </select>
+                    </p>
+                    <p><input placeholder="Price Sold" id="modify-priceSold" type="number"></p>
+                    <p><input id="modify-submit" type="submit"></p>
+                </form>
+
+            </div>
+        </div>
+
+
+        <script>
+            function modifyProduct()
+            {
+                event.preventDefault();
+                var id = document.getElementById('modify-id').value;
+                alert("Product ID = " + id);
+                var Products = Parse.Object.extend("Products");
+                var query = new Parse.Query(Products);
+                query.equalTo("ProductID",id);
+                query.first({
+                    success: function(object) {
+                        alert("Found Object");
+                        object.set("ProductName", "CHANGED NAME");
+                        object.save();
+                    },
+                    error: function(error) {
+                        alert("Error: " + error.code + " " + error.message);
+                    }
+                });
+
+            }
+        </script>
+
+
+
+
+
+        <!-- Delete Product modal window -->
+        <div id="deleteProductModal" class="modalDialog">
+            <div>
+                <a href="#close" title="Close" class="close">X</a>
+                <h2>Enter Product ID to Remove</h2>
+
+                <form action="parse-form" onsubmit="removeProduct();">
+                    <p><input placeholder="Product ID" id="delete-id" type="text"></p>
+                    <p><input id="delete-submit" type="submit"></p>
+                </form>
+
+            </div>
+        </div>
+
+        <script>
+            function removeProduct() {
+                event.preventDefault();
+                var id = document.getElementById('delete-id').value;
+                var Products = Parse.Object.extend("Products");
+                var query = new Parse.Query(Products);
+                query.get(id, {
+                    success: function(foundProduct) {
+                        // The object was retrieved successfully.
+                        foundProduct.destroy({});
+                    },
+                    error: function(object, error) {
+                        // The object was not retrieved successfully.
+                        // error is a Parse.Error with an error code and description.
+                    }
+                });
+            }
+        </script>
+
+
+
+
+
+        <!-- New Product modal window -->
+        <div id="newProductModal" class="modalDialog">
+            <div>
+                <a href="#close" title="Close" class="close">X</a>
+                <h2>New Product Entry</h2>
+
+                <form action="parse-form" onsubmit="submitProduct();">
+                        <p><input placeholder="Product ID" id="add-id" type="text"></p>
+                        <p><input placeholder="Name of Product" id="add-name" type="text"></p>
+                        <p><input placeholder="Weight" id="add-weight" type="Number"></p>
+                        <p><input placeholder="Cost of Product" id="add-cost" type="number"></p>
+                        <!-- <p><input placeholder="Sold" id="sold" type="checkbox"></p> -->
+                        <p> Product sold?
+                            <select id="add-sold">
+                                <option value="false">No</option>
+                             <option value="true">Yes</option>
+                            </select>
+                        </p>
+                        <p><input placeholder="Price Sold" id="add-priceSold" type="number"></p>
+                        <p><input id="parse-submit" type="submit"></p>
+                </form>
+
+
+            </div>
+        </div>
+
+        <script>
+            function submitProduct()
+            {
+                    event.preventDefault();
+                    var Products = Parse.Object.extend("Products");
+                    var product = new (Products);
+
+                    var id = document.getElementById('add-id').value;
+                    var name = document.getElementById('add-name').value;
+                    var weight = document.getElementById('add-weight').value;
+                    var cost = document.getElementById('add-cost').value;
+                    var sold = document.getElementById('add-sold').value;
+                    if (sold == "false")
+                    {
+                        var priceSold = 0;
+                    }
+                    else{
+                        var priceSold = document.getElementById('add-priceSold').value;
+                    }
+
+                    product.set("ProductID", id);
+                    product.set("ProductName", name);
+                    product.set("Weight",  parseFloat(weight));
+                    product.set("ProductCost",  parseFloat(cost));
+                    product.set("Sold", (sold == 'true'));
+                    product.set("PriceSold", parseFloat(priceSold));
+                    //product.set("ShipmentID", "ID123");
+
+                    product.save();
+                    location.reload();
+            }
+
+        </script>
+
+
+        <!-- Product Table-->
+        <div class=table-class" id="table-container">
+            <table id="output-table">
+                <tr>
+                    <th>Product ID</th>
+                    <th>Name</th>
+                    <th>Weight</th>
+                    <th>Cost</th>
+                    <th>Sold?</th>
+                    <th>Price Sold</th>
+
+                </tr>
+            </table>
+        </div>
+
+        <!-- Get entries from Parse's Product database-->
+        <script>
+            getProductTable();
+        </script>
+
+    </p>
+
+</div>
+
+
+
+
+</body>
+</html>

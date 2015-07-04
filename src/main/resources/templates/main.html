@@ -1,17 +1,44 @@
+<!-- Created by George Totolos 7-2-2015 -->
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Cpffee Import and Inventory Management</title>
+    <title>Coffee Import and Inventory Management</title>
+    <link rel="stylesheet" href="styles/menu.css">
+    <link rel="stylesheet" href="styles/style.css">
+    <script src="//www.parsecdn.com/js/parse-1.4.2.min.js"></script>
+    <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script src="scripts/scripts.js"></script>          <!-- External javascript/jquery to handle tabbing -->
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
-<h1>Coffeed Importer Calculator</h1>
+    <script>
+        // Access Parse database (ID, key)
+        Parse.initialize("lXpYJrImjyl3YSKDvxX9R6H3GGqIKQrB6WbI6Eu1", "tmfM1mnCsFEE9onzPSAqwKubvgKakqPppNx8dnsq");
+    </script>
+    <h1>Coffee Import Tracker</h1>
 
-<button onclick="location.href='/newshipment'">
-    New Shipment</button>
+    <!-- Navigation menu -->
+    <ul class="nav">
+        <li class="current"><a href="main.html">Home</a></li>
+        <li><a href="inventory.html">Inventory</a></li>
+        <li><a href="shipments.html">Shipments</a></li>
+    </ul>
 
-<button onclick="location.href='/inventoryviewer'">
-    View Inventory</button>
+    <!-- Home page contents -->
+    <div class="content">
+        <h2>Home</h2>
+        <p>
+            Welcome to the coffee import application. I don't know what kind of data we could put here but it's here.
+            Home screen data Home screen data Home screen data Home screen data Home screen data Home screen data Home screen data Home screen data
+            Home screen data Home screen data Home screen data Home screen data Home screen data Home screen data Home screen data
+            Home screen data Home screen data Home screen data Home screen data Home screen data Home screen data Home screen data Home screen data
+            Home screen data Home screen data Home screen data Home screen data Home screen data Home screen data
+            Home screen data Home screen data Home screen data Home screen data
+            Home screen data Home screen data Home screen data Home screen data Home screen data Home screen data
+
+        </p>
+
+    </div>
 
 
 </body>

@@ -25,11 +25,11 @@ public class GeorgesParseAccessorTests
 {
     public static void main(String [] args)
     {
-        ParseAccessor parseAccessor;
-        Product testProduct;
-        parseAccessor = new ParseAccessor("lXpYJrImjyl3YSKDvxX9R6H3GGqIKQrB6WbI6Eu1", "tmfM1mnCsFEE9onzPSAqwKubvgKakqPppNx8dnsq");
 
-        testProduct = new Product();
+        ParseAccessor parseAccessor = new ParseAccessor("lXpYJrImjyl3YSKDvxX9R6H3GGqIKQrB6WbI6Eu1", "tmfM1mnCsFEE9onzPSAqwKubvgKakqPppNx8dnsq");
+        Product testProduct = new Product();
+/*
+
         testProduct.setProductId("AAA12345");
         testProduct.setProductName("George's Coffee");
         testProduct.setProductCost(100);
@@ -38,6 +38,7 @@ public class GeorgesParseAccessorTests
 
 
         parseAccessor.updateProduct(testProduct);
+*/
     }
 
 }
