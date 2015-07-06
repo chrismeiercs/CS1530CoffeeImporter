@@ -2,12 +2,17 @@ package coffeeimport;/**
  * Created by Chris on 6/21/2015.
  */
 
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import java.text.SimpleDateFormat;
+import org.springframework.web.bind.WebDataBinder;
+import java.util.Date;
 
 @Controller
 
@@ -25,16 +30,8 @@ public class NewShipmentController {
     @RequestMapping(value="/newshipment", method=RequestMethod.POST)
     public String calcShipmentCosts(@ModelAttribute Shipment shipment, Model model, BindingResult bindingResult){
 
-        //check date formatted correctly
-        String date = shipment.getDateReceived();
-        String[] dateSplit = date.split("/");
-        String month = dateSplit[0];
-        String day = dateSplit[1];
-        String year = dateSplit[2];
 
-
-
-        if(bindingResult.hasErrors() && (month.length() == 2) && (day.length() == 2) && (year.length() == 4)){
+        if(bindingResult.hasErrors()){
             return "updateFailure";
         }
 
@@ -70,5 +67,13 @@ public class NewShipmentController {
             return "updateFailure";
         }
     }
+
+    //sets rules for dateReceived field. If the date is not formatted correctly, an error will occur
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        SimpleDateFormat sdf = new SimpleDateFormat("mm/dd/yyyy");
+        sdf.setLenient(true);
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(sdf, true));
+        }
 
 }

@@ -1,5 +1,6 @@
 package coffeeimport;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 import java.util.ArrayList;
@@ -13,7 +14,8 @@ public class Shipment {
 
     private String shipmentId;
     private double pricePerKg;
-    private String dateReceived;
+    @DateTimeFormat(pattern="MM/dd/yyyy")
+    private Date dateReceived;
     private String origin;
     private double weight;
     private double shippingCost;
@@ -103,7 +105,7 @@ public class Shipment {
      * Get the date the shipment was received
      * @return date received
      */
-    public String getDateReceived() {
+    public Date getDateReceived() {
         return dateReceived;
     }
 
@@ -137,7 +139,7 @@ public class Shipment {
      * @param dateReceived
      */
 
-    public void setDateReceived(String dateReceived) {
+    public void setDateReceived(Date dateReceived) {
         this.dateReceived = dateReceived;
     }
 
