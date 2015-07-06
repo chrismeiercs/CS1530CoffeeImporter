@@ -13,7 +13,7 @@ public class Shipment {
 
     private String shipmentId;
     private double pricePerKg;
-    private Date dateReceived;
+    private String dateReceived;
     private String origin;
     private double weight;
     private double shippingCost;
@@ -21,6 +21,13 @@ public class Shipment {
     private LinkedList<Product> products;
     private double productCost;
 
+    //throws exception so that error can be caught and easily displayed to the user
+    //Check is more natural to happen here
+
+    /**
+        @return calculated shipping cost for this instance
+        @throws Exception The cost of the products can not be greater that the total cost of the shipment
+     **/
     public double calculateShippingCost() throws Exception {
 
         if(this.productCost > this.totalCost){
@@ -32,76 +39,143 @@ public class Shipment {
         return this.shippingCost;
     }
 
+    /**
+     * Get the cost of all products from this shipment
+     * @return  Cost of all products summed together
+     */
+
     public double getProductCost() {
         return productCost;
     }
+
+    /**
+     * Sets the summed cost of all products in the shipment
+     * @param productCost
+     */
 
     public void setProductCost(double productCost) {
         this.productCost = productCost;
     }
 
+    /**
+     * Return the shipment cost of this shipment
+     * @return shipping cost of the shipment
+     */
+
     public double getShippingCost() {
         return this.shippingCost;
     }
 
+    /**
+     * Gets the total cost of this shipment
+     * @return total cost of shipment
+     */
     public double getTotalCost(){
         return this.totalCost;
     }
 
+    /**
+     * Sets the total cost of the shipment
+     * @param totalCost total cost of the shipment
+     */
     public void setTotalCost(double totalCost){
         this.totalCost = totalCost;
     }
 
-
+    /**
+     * Set the weight of the shipment in Kg
+     * @param weight weight of the shipment in Kg
+     */
     public void setWeight(double weight) {
         this.weight = weight;
     }
+
+    /**
+     * Get the weight of the shipment
+     * @return weight of the shipment
+     */
 
     public double getWeight() {
         return weight;
     }
 
-    public Date getDateReceived() {
+    /**
+     * Get the date the shipment was received
+     * @return date received
+     */
+    public String getDateReceived() {
         return dateReceived;
     }
 
+    /**
+     * Get the price per Kg of the shipment
+     * @return price per Kg
+     */
     @ModelAttribute("pricePerKg")
     public double getPricePerKg() {
         return pricePerKg;
     }
 
+    /**
+     * Get where the shipment was sent from
+     * @return location where the shipment was sent from
+     */
     public String getOrigin() {
         return origin;
     }
 
+    /**
+     * Get the shipment id
+     * @return shipment id
+     */
     public String getShipmentId() {
         return shipmentId;
     }
 
-    public void setDateRecieved(Date dateRecieved) {
-        this.dateReceived = dateRecieved;
+    /**
+     * Sets the date the shipment was received
+     * @param dateReceived
+     */
+
+    public void setDateReceived(String dateReceived) {
+        this.dateReceived = dateReceived;
     }
+
+    /**
+     * Sets the origin for the shipment
+     * @param origin Name of the shipment's origin
+     */
 
     public void setOrigin(String origin) {
         this.origin = origin;
     }
 
+    /**
+     * Set the price per Kg to either the calculated price or a price desired by the user
+     * @param pricePerKg price per kg for the shipment products
+     */
+
     public void setPricePerKg(double pricePerKg) {
         this.pricePerKg = pricePerKg;
     }
 
+    /**
+     * Set the shipment id to the one specified by the user
+     * @param shipmentId id of the shipment
+     */
+
     public void setShipmentId(String shipmentId) {
         this.shipmentId = shipmentId;
     }
+
+    /**
+     * Set tje shipping cost of the shipment
+     * @param shippingCost cost of shipping
+     */
 
     public void setShippingCost(double shippingCost){
         this.shippingCost = shippingCost;
     }
 
 
-
-    public boolean updateShipment(){
-
-        return true;
-    }
 }

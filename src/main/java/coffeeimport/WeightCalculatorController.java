@@ -29,11 +29,11 @@ public class WeightCalculatorController {
     //post request so that the calculation can be performed server side
     @RequestMapping(value="/weightcalc", method=RequestMethod.POST)
     public  String weightSubmit(@ModelAttribute WeightCalculator weightCalculator, Model model, BindingResult bindingResult){
-
+        //calculate the price per kg
         double pricePerUnit = weightCalculator.calcPricePerUnit(weightCalculator.getShippingCost(),
                 weightCalculator.getWeight()) ;
 
-        //show price per kg by adding to model
+        //show price per kg by adding to model which is displayed on the page
         model.addAttribute("pricePerUnit", pricePerUnit);
         model.addAttribute("shipment", new Shipment());
         return "weightCalculation";
@@ -41,9 +41,18 @@ public class WeightCalculatorController {
     //updates weight with parse
     @RequestMapping(value="/updateWeight", method=RequestMethod.POST)
     public  String weightUpdate(@ModelAttribute Shipment shipment, Model model, BindingResult bindingResult){
+
+        //halt update if the form has any errors
+        if(bindingResult.hasErrors()){
+            return "updateFailure";
+        }
+        //Adds shipment id and price to be displayed on the page
         model.addAttribute("id", shipment.getShipmentId());
         model.addAttribute("price", shipment.getPricePerKg());
-        if(shipment.updateShipment()){
+
+        //update to parse
+        ParseAccessor parse = new ParseAccessor();
+        if(parse.updateShipment(shipment)){
             return "weightUpdated";
         }
         else{

@@ -25,12 +25,26 @@ public class NewShipmentController {
     @RequestMapping(value="/newshipment", method=RequestMethod.POST)
     public String calcShipmentCosts(@ModelAttribute Shipment shipment, Model model, BindingResult bindingResult){
 
+        //check date formatted correctly
+        String date = shipment.getDateReceived();
+        String[] dateSplit = date.split("/");
+        String month = dateSplit[0];
+        String day = dateSplit[1];
+        String year = dateSplit[2];
+
+
+
+        if(bindingResult.hasErrors() && (month.length() == 2) && (day.length() == 2) && (year.length() == 4)){
+            return "updateFailure";
+        }
+
+
         //takes the shipment object that was the form backing object
         double shippingCost;
         try {
             shippingCost = shipment.calculateShippingCost();
 
-        } catch (Exception e) {
+        } catch (Exception e) { //displays exception as error to the user
             shippingCost = 0;
             model.addAttribute("errorMessage", e.getMessage());
         }
@@ -42,6 +56,8 @@ public class NewShipmentController {
         model.addAttribute("productCost", shipment.getProductCost());
         model.addAttribute("shippingCost", shipment.getShippingCost());
         model.addAttribute("percentCost", percentageOfCost*100);
+        model.addAttribute("origin", shipment.getOrigin());
+        model.addAttribute("dateReceived", shipment.getDateReceived());
 
         //updates to parse
         ParseAccessor parse = new ParseAccessor();
