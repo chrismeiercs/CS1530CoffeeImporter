@@ -1,5 +1,6 @@
 package coffeeimport;
 
+import org.parse4j.ParseObject;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 import java.util.ArrayList;
@@ -8,18 +9,25 @@ import java.util.LinkedList;
 
 /**
  * Created by Chris on 6/20/2015.
+ * Updated by Adam on 6/22/2015.
+ * "                " 6/29/2015.
  */
 public class Shipment {
+    /**
+     * Instantiate each case in the event one is not given a value
+     */
 
-    private String shipmentId;
-    private double pricePerKg;
-    private Date dateRecieved;
-    private String origin;
-    private double weight;
-    private double shippingCost;
-    private double totalCost;
+    //Todo Create appropriate default date
+
+    private String shipmentId ="";
+    private double pricePerKg = -1;
+    private Date dateReceived = null;
+    private String origin = "";
+    private double weight = -1;
+    private double shippingCost = -1;
+    private double totalCost = -1;
     private LinkedList<Product> products;
-    private double productCost;
+    private double productCost = -1;
 
     public double calculateShippingCost() throws Exception {
 
@@ -61,8 +69,8 @@ public class Shipment {
         return weight;
     }
 
-    public Date getDateRecieved() {
-        return dateRecieved;
+    public Date getDateReceived() {
+        return dateReceived;
     }
 
     @ModelAttribute("pricePerKg")
@@ -78,8 +86,10 @@ public class Shipment {
         return shipmentId;
     }
 
-    public void setDateRecieved(Date dateRecieved) {
-        this.dateRecieved = dateRecieved;
+    public LinkedList<Product> getProducts(){ return products; }
+
+    public void setDateReceived(Date dateReceived) {
+        this.dateReceived = dateReceived;
     }
 
     public void setOrigin(String origin) {
@@ -100,6 +110,10 @@ public class Shipment {
 
 
 
+    //Todo add product addition
+
+
+    //Todo
     public boolean updateShipment(){
 
         return true;
