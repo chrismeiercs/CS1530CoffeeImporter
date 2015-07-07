@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class HomeController{
 	@RequestMapping(method=RequestMethod.GET)
 	public String printWelcome(Model model){
+		//sends message to the main page
 		model.addAttribute("message","Welcome to Coffee Importer Project!");
 		return "main";
 	}
