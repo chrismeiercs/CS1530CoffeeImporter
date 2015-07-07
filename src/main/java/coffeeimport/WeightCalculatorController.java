@@ -17,6 +17,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @Controller
 //@RequestMapping("/weightcalc")
 public class WeightCalculatorController {
+    ParseAccessor parseAccessor = new ParseAccessor();
     @RequestMapping(value="/weightcalc", method=RequestMethod.GET)
     public String renderCalculator(Model model){
         //WeightCalculator weightCalc = new WeightCalculator();
@@ -40,7 +41,7 @@ public class WeightCalculatorController {
     public  String weightUpdate(@ModelAttribute Shipment shipment, Model model, BindingResult bindingResult){
         model.addAttribute("id", shipment.getShipmentId());
         model.addAttribute("price", shipment.getPricePerKg());
-        if(shipment.updateShipment()){
+        if(parseAccessor.updateShipment(shipment)){
             return "weightUpdated";
         }
         else{

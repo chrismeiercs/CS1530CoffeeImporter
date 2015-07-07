@@ -1,5 +1,6 @@
 package coffeeimport;
 
+import org.parse4j.ParseObject;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 import java.util.ArrayList;
@@ -8,18 +9,31 @@ import java.util.LinkedList;
 
 /**
  * Created by Chris on 6/20/2015.
+ * Updated by Adam on 6/22/2015.
+ * "                " 6/29/2015.
  */
 public class Shipment {
+    /**
+     * Instantiate each case in the event one is not given a value
+     * Prevents NullPointerExceptions...Will remove values once
+     * a better empty case handling solution is implement.
+     */
 
-    private String shipmentId;
-    private double pricePerKg;
-    private Date dateRecieved;
-    private String origin;
-    private double weight;
-    private double shippingCost;
-    private double totalCost;
-    private LinkedList<Product> products;
-    private double productCost;
+    //Todo Create appropriate default date
+
+    private String shipmentId ="";
+    private double pricePerKg = -1;
+    private Date dateReceived = new Date(0);    //Should reference January 1st, 1970
+    private String origin = "";
+    private double weight = -1;
+    private double shippingCost = -1;
+    private double totalCost = -1;
+    private LinkedList<Product> products = new LinkedList<Product>();
+    private double productCost = -1;
+
+
+    //Todo this method cannot be accessed by some classes
+
 
     public double calculateShippingCost() throws Exception {
 
@@ -31,6 +45,10 @@ public class Shipment {
 
         return this.shippingCost;
     }
+
+    /**
+     * This are all of our Setter and getter methods
+     */
 
     public double getProductCost() {
         return productCost;
@@ -61,8 +79,8 @@ public class Shipment {
         return weight;
     }
 
-    public Date getDateRecieved() {
-        return dateRecieved;
+    public Date getDateReceived() {
+        return dateReceived;
     }
 
     @ModelAttribute("pricePerKg")
@@ -78,8 +96,10 @@ public class Shipment {
         return shipmentId;
     }
 
-    public void setDateRecieved(Date dateRecieved) {
-        this.dateRecieved = dateRecieved;
+    public LinkedList<Product> getProducts(){ return products; }
+
+    public void setDateReceived(Date dateReceived) {
+        this.dateReceived = dateReceived;
     }
 
     public void setOrigin(String origin) {
@@ -99,9 +119,25 @@ public class Shipment {
     }
 
 
+    /**
+     *
+     * @param product - Product to be added this shipment's inventory
+     *          Also, updates product's shipmentId if it has not already been set
+     * @return  True upon successful addition; False upon Failure
+     */
+    //Todo Might need modification
+    public boolean addProductToShipment(Product product){
+        boolean result = false;
 
-    public boolean updateShipment(){
+        if(product.getShipmentId().equals("")){     // If the product's shipment ID was not set beforehand,
+            product.setShipmentId(shipmentId);      // set the product's shipmentID to the shipment it was added to.
+        }                                           // Todo This is only here until the proper empty value handling code is made.  Good for an edge case
 
-        return true;
+        products.add(product);
+        if(products.add(product)){
+            result = true;
+        }
+        return result;
     }
+
 }

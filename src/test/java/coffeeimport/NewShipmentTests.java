@@ -16,9 +16,11 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public class NewShipmentTests {
 
     Shipment shipment;
+    Product product;
     @Before
     public void setUp() throws Exception{
         shipment = new Shipment();
+        product = new Product();
     }
 
     @Test(expected = Exception.class)
@@ -36,5 +38,15 @@ public class NewShipmentTests {
         Assert.assertEquals(5,shipmentCost,0);
     }
 
+    /**
+     * Tests if Product can be added to a Shipment list
+     * @throws Exception
+     * Fails if Product is not successfully added
+     */
+    @Test
+    public void addProductToShipmentListTest() throws Exception{
+        Assert.assertTrue(shipment.addProductToShipment(product));
 
+
+    }
 }
