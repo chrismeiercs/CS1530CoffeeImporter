@@ -30,7 +30,7 @@ public class NewShipmentController {
     @RequestMapping(value="/newshipment", method=RequestMethod.POST)
     public String calcShipmentCosts(@ModelAttribute Shipment shipment, Model model, BindingResult bindingResult){
 
-
+        //if the form is incorrect
         if(bindingResult.hasErrors()){
             return "updateFailure";
         }
