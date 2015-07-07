@@ -46,13 +46,12 @@ public class ParseAccessor {
     private String app_key;
     private Boolean success = true;
     private ParseObject temp;
-    private Serializer converter = new Serializer();
 
     /**
      * Access the Parse Application
      */
 
-    public ParseAccessor(String id, String key){
+    public ParseAccessor(String id, String key){    //If a different Parse database is used
         app_id = id;
         app_key = key;
         Parse.initialize(id,key);
@@ -60,7 +59,7 @@ public class ParseAccessor {
 
     public ParseAccessor(){
         //Need to assume an id and key;  Using mine (Adam's) until otherwise specified
-        Parse.initialize("lXpYJrImjyl3YSKDvxX9R6H3GGqIKQrB6WbI6Eu1", "dRwFZFBIxUiHP8nL3JYKsjtJpCLX1SZCl7Zez5C3");
+        Parse.initialize("", "");               //Removed App ID and Key for safety reasons
     }
 
     /**
@@ -75,8 +74,8 @@ public class ParseAccessor {
     //TODO Make put "Date" functional (Mainly handle Edge Cases)
     public boolean updateShipment(Shipment shipment){
 
-        ParseFile file;
-        byte[] bytes;
+        //ParseFile file;
+        //byte[] bytes;
         boolean shipmentSuccess;
         ParseObject inventoryShipment = new ParseObject("Shipments");
         inventoryShipment.put("ShipmentID", shipment.getShipmentId());
@@ -124,7 +123,7 @@ public class ParseAccessor {
         query.findInBackground(new FindCallback<ParseObject>() {        //Query for the shipment with the right ID
             @Override
             public void done(List<ParseObject> list, ParseException e) {
-                if (list!=null && list.size() > 1) {
+                if (list!=null && list.size() >= 1) {   //Happy path: size == 1
                     //More than one of this shipment...bad JuJu
                     //However, ShipmentIDs should be unique, so there should never be more than one with the same ID
                     for (int i = 0; i < list.size(); i++) {
@@ -138,16 +137,6 @@ public class ParseAccessor {
                             }
                         });
                     }
-                } else if (list!=null && list.size() == 1) {            //Only one was found, this is the happy path
-                    temp = list.get(0);
-                    temp.deleteInBackground(new DeleteCallback() {
-                        @Override
-                        public void done(ParseException e) {        //Delete the object in background
-                            if (e != null) {
-                                success = false;
-                            }
-                        }
-                    });
                 } else {
                     //Todo Represent to user that no such shipment exists
                     success = false;
@@ -155,7 +144,7 @@ public class ParseAccessor {
             }
         });
 
-        if(success==true){
+        if(success){
             query = new ParseQuery<ParseObject>("Products");
             query.whereEqualTo("ShipmentID", id);
             query.findInBackground(new FindCallback<ParseObject>() {
@@ -193,6 +182,7 @@ public class ParseAccessor {
         inventoryProduct.put("Sold", product.getHasBeenSold());
         inventoryProduct.put("PriceSold", product.getPriceSold());
         inventoryProduct.put("Weight", product.getProductWeight());
+        inventoryProduct.put("PriceListedForSale", product.getPriceListedForSale());
 
         inventoryProduct.put("ShipmentID", product.getShipmentId());
         //Todo
@@ -231,7 +221,7 @@ public class ParseAccessor {
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> list, ParseException e) {
-                if(list!=null && list.size()>1){                      //There was more than one of this product for some reason
+                if(list!=null && list.size()>=1){                      //There was more than one of this product for some reason; If size === 1 -> Happy Path
                     //Todo Need to establish Product ID'ing format, otherwise cannot assume that user wants to delete every item with the same ProductID...Could be a problem
                     for(int i=0;i<list.size();i++){
                         temp = list.get(i);
@@ -244,18 +234,6 @@ public class ParseAccessor {
                             }
                         });
                     }
-                }
-                else if(list!=null && list.size()==1){    //One item returned; Happy Path
-                    temp = list.get(0);
-                    temp.deleteInBackground(new DeleteCallback() {
-                        @Override
-                        public void done(ParseException e) {
-                            if(e!=null){
-                                success=false;
-
-                            }
-                        }
-                    });
                 }
                 else{
                     //Todo Represent to user that no such product exists
@@ -288,11 +266,8 @@ public class ParseAccessor {
             @Override
             public void done(List<ParseObject> list, ParseException e) {
                 if(e==null && list!=null) {
-                    if (list.size() <= 0) {
-                        //Todo This shipment does not exist, inform user
-                        success = false;
-                    } else if (list.size() > 1) {
-                        //This should never be the case.  ShipmentID's are meant to be unique
+                    if (list.size() <= 0 || list.size() > 1) {
+                        //Todo This shipment does not exist, inform user OR there is more than one shipment with the same ID, this should never be the case
                         success = false;
                     } else {       //Only one shipment matched
                         LinkedList<Product> products;
@@ -315,7 +290,7 @@ public class ParseAccessor {
                             byte[] videoBytes = baos.toByteArray(); //this is the video in bytes.
                             */
 
-                            products = (LinkedList<Product>)list.get(0).get("LinkedListOfProducts");
+                            //products = (LinkedList<Product>)list.get(0).get("LinkedListOfProducts");
                            //todo products.add(product);
 
 
@@ -363,28 +338,11 @@ public class ParseAccessor {
      * It will be removed before the final web app is complete
      * @return ParseObject that was saved in Background
      */
-    public ParseObject shipmentCreationExampleMethod(Shipment ship){
+    /*public ParseObject shipmentCreationExampleMethod(Shipment ship){
         ParseObject inventoryShipment = new ParseObject("T");
         inventoryShipment.put("a", "a");
         inventoryShipment.saveInBackground();
         return inventoryShipment;
-    }
+    }*/
 
-    /**
-     * Getter method
-     * @return Parse App ID
-     */
-
-    public String getApp_id(){
-        return app_id;
-    }
-
-    /**
-     * Getter method
-     * @return  Parse API Key
-     */
-
-    public String getApp_key(){
-        return app_key;
-    }
 }

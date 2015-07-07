@@ -15,6 +15,8 @@ import java.util.LinkedList;
 public class Shipment {
     /**
      * Instantiate each case in the event one is not given a value
+     * Prevents NullPointerExceptions...Will remove values once
+     * a better empty case handling solution is implement.
      */
 
     //Todo Create appropriate default date
@@ -119,28 +121,23 @@ public class Shipment {
 
     /**
      *
-     * @param p - Product to be added this shipment's inventory
+     * @param product - Product to be added this shipment's inventory
      *          Also, updates product's shipmentId if it has not already been set
      * @return  True upon successful addition; False upon Failure
      */
     //Todo Might need modification
-    public boolean addProductToShipment(Product p){
+    public boolean addProductToShipment(Product product){
         boolean result = false;
 
-        if(p.getShipmentId().equals("")){
-            p.setShipmentId(shipmentId);
-        }
+        if(product.getShipmentId().equals("")){     // If the product's shipment ID was not set beforehand,
+            product.setShipmentId(shipmentId);      // set the product's shipmentID to the shipment it was added to.
+        }                                           // Todo This is only here until the proper empty value handling code is made.  Good for an edge case
 
-        products.add(p);
-        if(products.add(p)){
+        products.add(product);
+        if(products.add(product)){
             result = true;
         }
         return result;
     }
 
-    //Todo  What was this supposed to do?
-    public boolean updateShipment(){
-
-        return true;
-    }
 }

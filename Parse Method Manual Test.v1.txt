@@ -1,18 +1,18 @@
 //Created by Adam Rison
 
 /**The following code was added to the main file of our program for manual testing with the Parse database:
-*CS1530CoffeeImporter>src>main>java>coffeeimport>CoffeeImportApplication.class
-*
-*These tests were ran mulitple times with varying conditions to ensure no bugs or errors were present.
-*The following lines of code represent the a fraction of the testing that was performed.  You can 
-*copy and paste the code back into the CoffeeImportApplication class right after the initialization of the 
-*ParseAccessor to see the results in Parse.
-*
-*/
+ *CS1530CoffeeImporter>src>main>java>coffeeimport>CoffeeImportApplication.class
+ *
+ *These tests were ran mulitple times with varying conditions to ensure no bugs or errors were present.
+ *The following lines of code represent the a fraction of the testing that was performed.  You can
+ *copy and paste the code back into the CoffeeImportApplication class right after the initialization of the
+ *ParseAccessor to see the results in Parse.
+ *
+ */
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	//Initialize Objects
+        //Initialize Objects
         Shipment testShipment = new Shipment();
         Product productA = new Product();
         Product productB = new Product();
@@ -21,6 +21,7 @@
 
         //Set ProductA's values
         productA.setProductCost(7.99);
+        productA.setPriceListedForSale(9.97);
         productA.setHasBeenSold(false);
         productA.setProductName("Tijuana's Finest Beans");
         productA.setProductId("XYZ");
@@ -28,6 +29,7 @@
 
         //Set ProductB's values
         productB.setProductCost(8.95);
+        productB.setPriceListedForSale(12.21);
         productB.setHasBeenSold(false);
         productB.setProductName("Coffee Crafters' Best");
         productB.setProductId("ABC");
@@ -40,19 +42,19 @@
         testShipment.setPricePerKg((double)Math.round(100.0*testShipment.getProductCost()/testShipment.getWeight())/100);
         testShipment.setShipmentId("Id.123");
         testShipment.setTotalCost(24.91);
-        testShipment.setShippingCost((double) Math.round(100*(testShipment.getTotalCost()-testShipment.getProductCost()))/100);    ///Todo For some reason Shipment.calculateShippingCost() isn't working
+        testShipment.setShippingCost((double) Math.round(100*(testShipment.getTotalCost()-testShipment.getProductCost()))/100);
 
         //Add Products to shipment's list and set products' shipmentID
-        //testShipment.addProductToShipment(productA);
-        //testShipment.addProductToShipment(productB);
+        testShipment.addProductToShipment(productA);
+        testShipment.addProductToShipment(productB);
 
-        //productA.setShipmentId(testShipment.getShipmentId());
-        //productB.setShipmentId(testShipment.getShipmentId());
+        productA.setShipmentId(testShipment.getShipmentId());
+        productB.setShipmentId(testShipment.getShipmentId());
 
         //Send Everything to Parse
-        //p.updateShipment(testShipment);
-        //p.updateProduct(productA);
-        //p.updateProduct(productB);
+        parseAccessor.updateShipment(testShipment);
+        parseAccessor.updateProduct(productA);
+        parseAccessor.updateProduct(productB);
 
         //Verify that the following objects have made it to Parse
 ////////////////////////////////////////////////////////////////////////////////
@@ -61,7 +63,7 @@
          *  7/2/15
          * In Shipments Class:
          *
-         *  objectId: Ow6TxIC1ko
+         *  objectId: Ow6TxIC1ko (Will be different upon generation of object)
          *  ShipmentID: Id.123
          *  createdAt: 2015-07-02T05:52:47.384Z
          *  updatedAt: 2015-07-02T05:52:47.384Z
@@ -78,7 +80,7 @@
          * In Products Class:
          *
          *  (ProductA)
-         *  objectId: liBQ116wRn
+         *  objectId: liBQ116wRn  (Will be different upon generation of object)
          *  ProductID: XYZ
          *  createdAt: 2015-07-02T05:52:47.400Z
          *  updatedAt: 2015-07-02T05:52:47.400Z
@@ -88,9 +90,10 @@
          *  PriceSold: -1
          *  ProductName: Tijuana's Finest Beans
          *  Weight: 4.02
+         *  PriceListedForSale: 9.97
          *
          *  (ProductB)
-         *  objectId: nmNsTMJds5
+         *  objectId: nmNsTMJds5  (Will be different upon generation of object)
          *  ProductID: ABC
          *  createdAt: 2015-07-02T05:52:47.399Z
          *  updatedAt: 2015-07-02T05:52:47.399Z
@@ -100,9 +103,12 @@
          *  PriceSold: -1
          *  ProductName: Coffee Crafters' Best
          *  Weight: 3.80
+         *  PriceListedForSale: 12.21
+         *
+         *  Test: Passed
          */
 
-        //p.deleteShipment(testShipment);
+        parseAccessor.deleteShipment(testShipment);
 
         /**
          * Results in Parse:
@@ -111,23 +117,27 @@
          * its associated products, productA and productB
          * have been removed from the Parse database
          *
+         * Upon running it a second time, no errors or exceptions
+         * occur and no data corrupt appears in Parse.
          *
+         *  Test: Passed
          */
 
         productC.setProductCost(12.68);
+        productC.setPriceListedForSale(18.14);
         productC.setHasBeenSold(true);
         productC.setPriceSold(12.68);
         productC.setProductName("Alaska's Impossible Coffee");
         productC.setProductId("GHI");
         productC.setProductWeight(1.39);
 
-        //p.updateProduct(productC);
+        parseAccessor.updateProduct(productC);
 
         /**
          * Results in Parse:
          *
          * (ProductC)
-         *  objectId: jR4Ot3fqyx
+         *  objectId: jR4Ot3fqyx  (Will be different upon generation of object)
          *  ProductID: GHI
          *  createdAt: 2015-07-04T02:29:21.717Z
          *  updatedAt: 2015-07-04T02:29:21.717Z
@@ -137,26 +147,32 @@
          *  PriceSold: 12.68
          *  ProductName: Alaska's Impossible Coffee
          *  Weight: 1.39
+         *  PriceListedForSale: 18.14
          *
+         * Test: Passed
          */
 
-        //p.deleteProduct(productC);
+        parseAccessor.deleteProduct(productC);
 
         /**
          * Results in Parse:
          *
          * The Product known as "productC" and its
          *  associated values have been completely
-         *  removed from the Parse database
+         *  removed from the Parse database.
          *
+         *  Upon running it a second time, no errors or exceptions
+         *  occur and no data corrupt appears in Parse.
+         *
+         *  Test: Passed
          */
 
         testShipment.addProductToShipment(productB);
         productB.setShipmentId(testShipment.getShipmentId());
-        p.updateShipment(testShipment);
-        p.updateProduct(productB);
-        p.updateShipmentList(testShipment.getShipmentId(), productA, false);
-        p.updateShipmentList(testShipment.getShipmentId(), productB, true);
+        parseAccessor.updateShipment(testShipment);
+        parseAccessor.updateProduct(productB);
+        parseAccessor.updateShipmentList(testShipment.getShipmentId(), productA, false);
+        parseAccessor.updateShipmentList(testShipment.getShipmentId(), productB, true);
 
         /**
          *
@@ -168,7 +184,7 @@
          * Shipment testShipment and Product productB both appear normally
          * the same way they did earlier.
          *
-         *
+         *  Test: Passed
          */
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////

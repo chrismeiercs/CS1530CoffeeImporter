@@ -15,25 +15,34 @@ import java.util.LinkedList;
  */
 public class Product
 {
-    private String productId = "";   // Auto generate?
-    private String shipmentId = "";  // From shipment that it came from?
+    private String productId = "";
+    private String shipmentId = "";
     private String productName = "";
-    private double productCost = -1;  // From shipment?
+    private double productCost = -1;
+    private double priceListedForSale = -1;
     private boolean hasBeenSold = false;
     private double priceSold = -1;
     private double productWeight = -1;
+
+    public Product(boolean productHasBeenSold, double priceProductWasSoldAt){ //Constructor with initial conditions
+        hasBeenSold = productHasBeenSold;
+        priceSold = priceProductWasSoldAt;
+    }
+
+    public Product(){}
 
     /**
      *  Getter Methods
      */
 
     public String getProductId()    { return productId;}
-    public String getShipmentId()   { return shipmentId; } // Get from elsewhere?
+    public String getShipmentId()   { return shipmentId; }
     public String getProductName()  { return productName; }
     public double getProductCost()   { return productCost; }
     public boolean getHasBeenSold() { return hasBeenSold; }
     public double getPriceSold()    { return priceSold; }
-    public double getProductWeight()   {return productWeight; }
+    public double getProductWeight()   { return productWeight; }
+    public double getPriceListedForSale() { return  priceListedForSale; }
 
 
     /**
@@ -47,7 +56,6 @@ public class Product
     public void setHasBeenSold(boolean hasBeenSold) { this.hasBeenSold = hasBeenSold; }
     public void setPriceSold(double priceSold)      { this.priceSold = priceSold; }
     public void setProductWeight(double weight)     { this.productWeight = weight; }
+    public void setPriceListedForSale(double priceListed)  { this.priceListedForSale = priceListed; }
 
-
-    public boolean updateProduct(){ return true; }
-} 
+}
