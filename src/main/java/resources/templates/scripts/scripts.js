@@ -1,6 +1,5 @@
 // George Totolos 7-2-2015
 
-
 function getProductTable()
 {
     var Products = Parse.Object.extend("Products");

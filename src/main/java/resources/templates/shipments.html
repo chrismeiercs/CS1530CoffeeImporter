@@ -7,8 +7,14 @@
     <link rel="stylesheet" href="styles/menu.css">
     <script src="//www.parsecdn.com/js/parse-1.4.2.min.js"></script>
     <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
-    <script src="scripts/scripts.js"></script>          <!-- External javascript/jquery to handle tabbing -->
+    <script src="scripts/scripts.js"></script>
+    <script src="scripts/productQuery.js"></script>
+    <script src="scripts/shipmentQuery.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
 </head>
 <body>
 <script>
@@ -25,63 +31,146 @@
 </ul>
 
 <div class="content">
-    <h2>Shipments |
-        <!-- Inventory Management buttons -->
-        <a href="#newShipmentModal" class="btn">New Shipment</a>
-        <a href="#veiwProductsModal" class="btn">View a Shipment's Products</a>
-    </h2>
+    <h2> Shipments | <a href="#newShipmentModal" class="btn">New Shipment</a> </h2>
     <p>
 
-<!-- MAIN TABLE: Display table from external script (scripts.js) -->
+
+    <!-- MAIN TABLE: Display table from external script (shipmentQuery.js) -->
     <div class=table-class" id="table-container">
         <table id="output-table">
             <tr>
+                <!-- Table Titles -->
                 <th>Shipment ID</th>
                 <th>Date Received</th>
                 <th>Origin</th>
-                <th>Shipping Cost</th>
-                <th>Total Cost</th>
-                <th>Product Cost</th>
                 <th>Weight</th>
-                <th>Price Per Kg</th>
+                <th>Total Cost</th>
+                <th>Shipping Cost</th>
+                <th>Product Cost</th>
+                <th>Price Per KG</th>
             </tr>
         </table>
     </div>
 
-<!-- Get entries from Parse's Product database-->
+    <!-- (External script) Get entries from Parse's Product database -->
     <script>
         getShipmentsTable();
     </script>
 
-
-
-<!-- BUTTON ACTIVATED MODAL WINDOWS: Forms for user to create a new product, modify, or remove -->
-
-    <!----------------------------------- New Product ----------------------------------->
-    <div id="newProductModal" class="modalDialog">
+    <!----------------------------------- New Shipment ----------------------------------->
+    <div id="newShipmentModal" class="modalDialog">
         <div>
             <a href="#close" title="Close" class="close">X</a>
             <h2>New Product Entry</h2>
-            <form action="parse-form" onsubmit="submitProduct();">
-                <p><input placeholder="Product ID" id="add-id" type="text" required></p>
-                <p><input placeholder="Name of Product" id="add-name" type="text" required></p>
-                <p><input placeholder="Weight" id="add-weight" type="Number" required></p>
-                <p><input placeholder="Cost of Product" id="add-cost" type="number" required></p>
-                <p> Product sold?
-                    <select id="add-sold">
-                        <option value="false">No</option>
-                        <option value="true">Yes</option>
-                    </select>
-                </p>
-                <p><input placeholder="Price Sold" id="add-priceSold" type="number"></p>
-                <p><input placeholder="Shipment ID" id="add-shipmentId" type="text"></p>
-                <p><input id="parse-submit" type="submit"></p>
+            <form action="parse-form" onsubmit="submitShipment();">
+
+                <p><input placeholder="Shipment ID" id="shipmentID-id" type="text" >
+                <input placeholder="Date Received" id="datepicker" type="text" ></p>
+                <p><input placeholder="Origin" id="origin-id" type="text" >
+                <input placeholder="Weight" id="weight-id" type="text" ></p>
+                <p><input placeholder="Total Cost" id="totalCost-id" type="text" >
+                <input placeholder="Shipping Cost" id="shippingCost-id" type="text" ></p>
+                <p><input placeholder="Product Cost" id="productCost-id" type="text" >
+                <input placeholder="Price Per KG" id="priceKG-id" type="text" ></p>
+
+
+                <button onclick="submitShipment();">Add Products In This Shipment</button></p>
+
             </form>
         </div>
     </div>
 
-<!-- SCRIPTS: Javascript/jquery to control parse inputs, outputs, modifications.  -->
+    <script>
+        $(function() {
+            $( "#datepicker" ).datepicker();
+        });
+    </script>
 
+    <script>
+        function submitShipment() // Called upon submission button
+        {
+            event.preventDefault(); // prevent auto-refresh
+            var Shipments = Parse.Object.extend("Shipments"); // Access Products in Parse
+            var shipment = new (Shipments); // Create new instance of Products object
+
+            // Get data from user forms
+            var shipmentID = document.getElementById('shipmentID-id').value;
+            var dateReceived = document.getElementById('datepicker').value;
+            var origin = document.getElementById('origin-id').value;
+            var weight = document.getElementById('weight-id').value;
+            var totalCost = document.getElementById('totalCost-id').value;
+            var shippingCost = document.getElementById('shippingCost-id').value;
+            var productCost = document.getElementById('productCost-id').value;
+            var priceKG = document.getElementById('priceKG-id').value;
+
+            var formatDate = new Date(dateReceived);
+
+            // Check if number forms are valid numbers
+            if ( isNaN(weight) ){ // if weight is not a number
+                alert("Entered weight is not a valid number");
+                return;
+            }
+
+            if ( isNaN(totalCost) ){ // if weight is invalid
+                alert("Entered total cost is not a valid number");
+                return;
+            }
+
+            if ( isNaN(shippingCost) ){ // if shipping cost is invalid
+                alert("Entered shipping cost is not a valid number");
+                return;
+            }
+
+            if ( isNaN(productCost) ){ // if product cost is invalid
+                alert("Entered product cost is not a valid number");
+                return;
+            }
+
+            if ( isNaN(priceKG) ){ // if price per kg is invalid
+                alert("Entered price per kg is not a valid number");
+                return;
+            }
+
+            // Add data to Parse
+            shipment.set("ShipmentID", shipmentID);
+            shipment.set("DateReceived", formatDate);
+            shipment.set("Origin", origin);
+            shipment.set("Weight", parseFloat(weight));
+            shipment.set("TotalCost", parseFloat(totalCost) );
+            shipment.set("ShippingCost", parseFloat(shippingCost));
+            shipment.set("ProductCost", parseFloat(productCost));
+            shipment.set("PricePerKg", parseFloat(priceKG));
+            shipment.save();
+
+            // Add Products Modal
+
+            location.reload(); // Refresh page
+        }
+    </script>
+
+
+
+
+
+
+
+<script>
+ /*   var Shipments = Parse.Object.extend("Shipments"); // Access Products in Parse
+    var shipment = new (Shipments); // Create new instance of Products object
+    // Get data from user forms
+    // Add data to Parse
+    //shipment.set("DateReceived", "2013-03-27T15:25:07.865Z");
+    shipment.set("Origin", "Iran");
+    shipment.set("ProductCost", 666);
+    shipment.set("ShipmentID", "S0001");
+    shipment.set("ShippingCost", 46.1);
+    shipment.set("Weight", 56);
+    shipment.set("TotalCost", 675.4);
+    shipment.set("PricePerKg", 3434.3333);
+
+    shipment.save();
+   // location.reload(); // Refresh page
+</script>
 
 
 
