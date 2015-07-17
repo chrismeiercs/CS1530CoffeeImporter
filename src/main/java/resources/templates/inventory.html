@@ -26,8 +26,8 @@
 <!-- Navigation menu -->
 <ul class="nav">
     <li><a href="main.html">Home</a></li>
-    <li class="current"><a href="inventory.html">Inventory</a></li> <!-- "current" means user is on this page -->
     <li><a href="shipments.html">Shipments</a></li>
+    <li class="current"><a href="inventory.html">Inventory</a></li> <!-- "current" means user is on this page -->
 </ul>
 
 <!-- Home page contents -->
@@ -36,9 +36,10 @@
     <h2><!-- Heading of page, buttons are in line horizontally -->
         Inventory |
         <!-- Inventory Management buttons -->
+        <input placeholder="Search by Shipment ID" id="search-shipmentID" type="text">
+        <button onclick="getProductTable(document.getElementById('search-shipmentID').value);">Search</button>
         <a href="#newProductModal" class="btn">New Product</a>
         <a href="#modifyProductModal" class="btn">Modify Product</a>
-        <a href="#deleteProductModal" class="btn">Remove Product</a>
     </h2>
     <p>
 
@@ -47,20 +48,23 @@
             <table id="output-table">
                 <tr>
                     <!-- Table Titles -->
+                    <th>Shipment ID</th>
                     <th>Product ID</th>
                     <th>Name</th>
                     <th>Weight</th>
                     <th>Cost</th>
                     <th>Sold?</th>
                     <th>Price Sold</th>
-                    <th>Shipment ID</th>
                 </tr>
             </table>
         </div>
 
         <!-- (External script) Get entries from Parse's Product database -->
         <script>
-            getProductTable();
+          //  if (!document.getElementById('search-shipmentID').value) {
+                //
+          //      getProductTable();
+         //   }
         </script>
 
 
@@ -75,18 +79,18 @@
                 <a href="#close" title="Close" class="close">X</a>
                 <h2>New Product Entry</h2>
                 <form action="parse-form" onsubmit="submitProduct();">
+                    <p><input placeholder="Shipment ID" id="add-shipmentId" type="text" required></p>
                     <p><input placeholder="Product ID" id="add-id" type="text" required></p>
-                    <p><input placeholder="Name of Product" id="add-name" type="text" required></p>
-                    <p><input placeholder="Weight" id="add-weight" type="Number" required></p>
-                    <p><input placeholder="Cost of Product" id="add-cost" type="number" required></p>
+                    <p><input placeholder="Name of Product" id="add-name" type="text" ></p>
+                    <p><input placeholder="Weight" id="add-weight" type="text" ></p>
+                    <p><input placeholder="Cost of Product" id="add-cost" type="text" ></p>
                     <p> Product sold?
                         <select id="add-sold">
                             <option value="false">No</option>
                             <option value="true">Yes</option>
                         </select>
                     </p>
-                    <p><input placeholder="Price Sold" id="add-priceSold" type="number"></p>
-                    <p><input placeholder="Shipment ID" id="add-shipmentId" type="text"></p>
+                    <p><input placeholder="Price Sold" id="add-priceSold" type="text"></p>
                     <p><input id="parse-submit" type="submit"></p>
                 </form>
             </div>
@@ -106,9 +110,9 @@
                 <form name="modifyForm" action="parse-form" onsubmit="modifyProduct();">
                     <p><input name="idNAME" placeholder="Product ID" id="modify-id" type="text" required>
                         <button onclick="generateProducts();">Find Product</button></p>
-                    <p><input name="nameNAME" placeholder="Name of Product" id="modify-name" type="text" required></p>
-                    <p><input name="weightNAME" placeholder="Weight" id="modify-weight" type="Number" required></p>
-                    <p><input name="costNAME" placeholder="Cost of Product" id="modify-cost" type="number" required></p>
+                    <p><input name="nameNAME" placeholder="Name of Product" id="modify-name" type="text" ></p>
+                    <p><input name="weightNAME" placeholder="Weight" id="modify-weight" type="Number" ></p>
+                    <p><input name="costNAME" placeholder="Cost of Product" id="modify-cost" type="number" ></p>
                     <p> Product sold?
                         <select name="soldNAME" id="modify-sold">
                             <option value="false">No</option>
@@ -119,25 +123,6 @@
                     <p><input name="shipmentIdNAME" placeholder="Shipment ID" id="modify-shipmentId" type="text"></p>
                     <p><input value = "Apply Changes" id="modify-submit" type="submit"></p>
                 </form>
-            </div>
-        </div>
-
-        <!----------------------------------- Delete Product ----------------------------------->
-        <!--
-       USAGE:
-           User inters product ID for the product they wish to delete. Upon "Remove Product" button press,
-           the object with the specified ID is removed from parse.
-       -->
-        <div id="deleteProductModal" class="modalDialog">
-            <div>
-                <a href="#close" title="Close" class="close">X</a>
-                <h2>Enter Product ID to Remove</h2>
-
-                <form action="parse-form" onsubmit="removeProduct();">
-                    <p><input placeholder="Product ID" id="delete-id" type="text"></p>
-                    <p><input value="Remove Product" id="delete-submit" type="submit"></p>
-                </form>
-
             </div>
         </div>
 
@@ -167,6 +152,31 @@
                     var priceSold = document.getElementById('add-priceSold').value;
                 }
                 var shipmentId = document.getElementById('add-shipmentId').value;
+
+
+                // Check if number forms are valid numbers
+                if ( isNaN(weight) ){ // if weight is not a number
+                    alert("Entered weight is not a valid number");
+                    return;
+                }
+
+                if ( isNaN(cost) ){ // if weight is invalid
+                    alert("Entered cost is not a valid number");
+                    return;
+                }
+
+                // handle NULL values
+                if (id == null) { id = " "; }
+                if (name == null) { name = " "; }
+                if (weight == null) { weight = "0"; }
+                if (cost == null) { cost = "0"; }
+                if (shipmentId == null) { shipmentId = " "; }
+                if (priceSold == null) { priceSold = "0"; }
+
+
+
+
+
                 // Add data to Parse
                 product.set("ProductID", id);
                 product.set("ProductName", name);
@@ -252,29 +262,6 @@
             }
         </script>
 
-    <!----------------------------------- Remove Product SCRIPT ----------------------------------->
-        <script>
-            // Removes product based on user entered ID
-            function removeProduct() {
-                event.preventDefault();
-                var id = document.getElementById('delete-id').value;
-                var Products = Parse.Object.extend("Products");
-                var query = new Parse.Query(Products);
-                // Find product with specified ID
-                query.equalTo("ProductID",id);
-                query.first({
-                    success: function(product) {
-                        //alert("Found product");
-                        product.destroy({}); // Remove
-                        location.reload();
-                    },
-                    error: function(error) {
-                        alert("Error: Could not remove product");
-                        location.reload();
-                    }
-                });
-            }
-        </script>
 
     </p>
 

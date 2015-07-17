@@ -25,12 +25,15 @@
 <!-- Navigation menu -->
 <ul class="nav">
     <li><a href="main.html">Home</a></li>
-    <li><a href="inventory.html">Inventory</a></li>
     <li class="current"><a href="shipments.html">Shipments</a></li>
+    <li><a href="inventory.html">Inventory</a></li>
 </ul>
 
 <div class="content">
-    <h2> Shipments | <a href="#newShipmentModal" class="btn">New Shipment</a> </h2>
+    <h2> Shipments |
+        <a href="#newShipmentModal" class="btn">New Shipment</a>
+        <a href="#modifyShipmentModal" class="btn">Modify Shipment</a>
+    </h2>
     <p>
 
     <!-- MAIN TABLE: Display table from external script (shipmentQuery.js) -->
@@ -50,19 +53,125 @@
         </table>
     </div>
 
-    <!-- (External script shipmentQuery.js) Get entries from Parse's Product database -->
+
     <script>
+        // Generate table through Parse Query
         getShipmentsTable();
     </script>
+
+    <!----------------------------------- Modify Shipment ----------------------------------->
+    <!--
+    USAGE:
+        User input ShipmentID field then presses "Find Shipment" button. Other field auto-generate
+        based on parse entry. From all the user has to do is change whatever fields they want and
+        hit "Apply Changes". All modifications will be updated for the Shipment with the specified ID
+    -->
+    <div id="modifyShipmentModal" class="modalDialog">
+        <div>
+            <a href="#close" title="Close" class="close">X</a>
+            <h2>Enter Product ID to Modify</h2>
+            <form name="modifyForm" action="parse-form" onsubmit="modifyShipment();">
+
+                <p><input name="idNAME" placeholder="Shipment ID" id="modify-id" type="text" required>
+                    <button onclick="generateShipment();">Find Shipment</button></p>
+                <p><input name="dateNAME" placeholder="Date Received" id="modify-datepicker" type="text"></p>
+                <p><input name="originNAME" placeholder="Origin" id="modify-origin" type="text" ></p>
+                <p><input name="weightNAME" placeholder="Weight" id="modify-weight" type="text" ></p>
+                <p><input name="totalCostNAME" placeholder="Total Cost" id="modify-totalCost" type="text" ></p>
+                <p><input name="shippingCostNAME" placeholder="Shipping Cost" id="modify-shipingCost" type="text" ></p>
+                <p><input name="productCostNAME" placeholder="Product Cost" id="modify-productCost" type="text" ></p>
+                <p><input name="pricePerKgNAME" placeholder="Price Per KG" id="modify-pricePerKG" type="text" ></p>
+
+                <p><input value = "Apply Changes" id="modify-submit" type="submit"></p>
+
+
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Auto fills in forms based on product ID for user modification
+        function generateShipment()
+        {
+            event.preventDefault(); // Prevent refresh
+            var id = document.getElementById('modify-id').value;
+            var Shipments = Parse.Object.extend("Shipments");
+            var query = new Parse.Query(Shipments);
+            // Find product with specified ID
+            query.equalTo("ShipmentID",id);
+            query.first({
+                success: function(object) {
+                    // Fill in forms from product ID for modification
+                    document.modifyForm.dateNAME.value = object.get("DateReceived".toLocaleString());
+                    document.modifyForm.originNAME.value = object.get("Origin");
+                    document.modifyForm.weightNAME.value = object.get("Weight");
+                    document.modifyForm.totalCostNAME.value = object.get("TotalCost");
+                    document.modifyForm.shippingCostNAME.value = object.get("ShippingCost");
+                    document.modifyForm.productCostNAME.value = object.get("ProductCost");
+                    document.modifyForm.pricePerKgNAME.value = object.get("PricePerKg");
+
+                },
+                error: function(error) {
+                    alert("Error: Could not find product");
+                }
+            });
+
+        }
+
+        // Actually does the product entry modification
+        function modifyShipment()
+        {
+            event.preventDefault();
+            // Gather data from forms
+            var id = document.getElementById('modify-id').value;
+            var dateReceived = document.getElementById('modify-datepicker').value;
+            var origin = document.getElementById('modify-origin').value;
+            var weight = document.getElementById('modify-weight').value;
+            var totalCost = document.getElementById('modify-totalCost').value;
+            var shippingCost = document.getElementById('modify-shipingCost').value;
+            var productCost = document.getElementById('modify-productCost').value;
+            var priceKG = document.getElementById('modify-pricePerKG').value;
+
+            var formatDate = new Date(dateReceived);
+
+
+            // Set the new data
+            var Shipments = Parse.Object.extend("Shipments");
+            var query = new Parse.Query(Shipments);
+            query.equalTo("ShipmentID",id);
+            query.first({
+                success: function(shipment) {
+                    // Add data to Parse
+                    shipment.set("ShipmentID", id);
+                    shipment.set("DateReceived", formatDate);
+                    shipment.set("Origin", origin);
+                    shipment.set("Weight", parseFloat(weight));
+                    shipment.set("TotalCost", parseFloat(totalCost) );
+                    shipment.set("ShippingCost", parseFloat(shippingCost));
+                    shipment.set("ProductCost", parseFloat(productCost));
+                    shipment.set("PricePerKg", parseFloat(priceKG));
+                    shipment.save();
+
+                    location.reload();
+                },
+                error: function(error) {
+                    alert("Error: Could not modify product");
+                }
+            });
+        }
+    </script>
+
+
+
 
     <!----------------------------------- New Shipment ----------------------------------->
     <div id="newShipmentModal" class="modalDialog">
         <div>
             <a href="#close" title="Close" class="close">X</a>
             <h2>New Product Entry</h2>
-            <form action="parse-form" onsubmit="submitShipment();">
+            <form onsubmit="submitShipment();">
 
-                <p><input placeholder="Shipment ID" id="shipmentID-id" type="text" >
+                <p><input placeholder="Shipment ID" id="shipmentID-id" type="text" required>
                 <input placeholder="Date Received" id="datepicker" type="text" ></p>
                 <p><input placeholder="Origin" id="origin-id" type="text" >
                 <input placeholder="Weight" id="weight-id" type="text" ></p>
@@ -71,18 +180,24 @@
                 <p><input placeholder="Product Cost" id="productCost-id" type="text" >
                 <input placeholder="Price Per KG" id="priceKG-id" type="text" ></p>
 
-
-                <button onclick="submitShipment();">Add Products In This Shipment</button></p>
+                <button onclick="submitShipment();">Submit</button></p>
 
             </form>
         </div>
     </div>
 
+
+
     <script>
         $(function() {
             $( "#datepicker" ).datepicker();
         });
+        $(function() {
+            $( "#modify-datepicker" ).datepicker();
+        });
     </script>
+
+
 
     <script>
         function submitShipment() // Called upon submission button
@@ -128,6 +243,17 @@
                 alert("Entered price per kg is not a valid number");
                 return;
             }
+
+            // handle NULL values
+            if (shipmentID == null) { shipmentID = " "; }
+            if (formatDate == null) { formatDate = " "; }
+            if (origin == null) { origin = " "; }
+            if (weight == null) { weight = "0"; }
+            if (totalCost == null) { totalCost = "0"; }
+            if (shippingCost == null) { shippingCost = "0"; }
+            if (productCost == null) { productCost = "0"; }
+            if (priceKG == null) { priceKG = "0"; }
+
 
             // Add data to Parse
             shipment.set("ShipmentID", shipmentID);

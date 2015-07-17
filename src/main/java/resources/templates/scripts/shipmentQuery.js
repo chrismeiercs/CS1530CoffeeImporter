@@ -41,10 +41,10 @@ function getShipmentsTable()
                 var cell7 = row.insertCell(6);
                 var cell8 = row.insertCell(7);
                 var cell9 = row.insertCell(8);
-                var cell10 = row.insertCell(9);
+                //var cell10 = row.insertCell(9);
 
 
-
+/*
 
                 // Create Edit button to be generated for each row
                 var editBtn = document.createElement("input");
@@ -52,16 +52,11 @@ function getShipmentsTable()
                 editBtn.type = "button";
                 editBtn.value = "Edit";
                 editBtn.setAttribute("id", shipmentID);
-                /* elem = document.createElement("input");
-                 elem.id ='btnGumb';
-                 elem.value = 'x close';
-                 elem.type = 'button';
-                 elem.onclick = window.close();
-                 */
+                editBtn.href="#newShipmentModal";
                 editBtn.onclick = function() { // Note this is a function
                     alert(this.id);
                 };
-
+*/
 
                 // Create delete button to be generated for each row
                 var deleteBtn = document.createElement("input");
@@ -98,8 +93,8 @@ function getShipmentsTable()
                 cell6.innerHTML = shippingCost;
                 cell7.innerHTML = productCost;
                 cell8.innerHTML = pricePerKg;
-                cell9.appendChild(editBtn);
-                cell10.appendChild(deleteBtn);
+             //   cell9.appendChild(editBtn);
+                cell9.appendChild(deleteBtn);
 
                 rowCount = rowCount + 1; // increase row count for next row insertion
 
