@@ -78,7 +78,7 @@ public class NewShipmentController {
         SimpleDateFormat sdf = new SimpleDateFormat("mm/dd/yyyy");
         sdf.setLenient(true);
         binder.registerCustomEditor(Date.class, new CustomDateEditor(sdf, true));
-        //check that a currency validator was added to the fields
+        //Add a currency validator was added to the fields
         binder.registerCustomEditor(Currency.class, "shippingCost", new CurrencyEditor());
         binder.registerCustomEditor(Currency.class, "productCost", new CurrencyEditor());
         }
