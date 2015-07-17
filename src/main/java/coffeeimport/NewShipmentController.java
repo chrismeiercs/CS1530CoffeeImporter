@@ -2,6 +2,7 @@ package coffeeimport;/**
  * Created by Chris on 6/21/2015.
  */
 
+import org.springframework.beans.propertyeditors.CurrencyEditor;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import java.text.SimpleDateFormat;
 import org.springframework.web.bind.WebDataBinder;
+
+import java.util.Currency;
 import java.util.Date;
 
 @Controller
@@ -31,8 +34,9 @@ public class NewShipmentController {
     public String calcShipmentCosts(@ModelAttribute Shipment shipment, Model model, BindingResult bindingResult){
 
         //if the form is incorrect
+        System.out.println(bindingResult.hasErrors());
         if(bindingResult.hasErrors()){
-            return "updateFailure";
+            return "main";
         }
 
 
@@ -74,6 +78,9 @@ public class NewShipmentController {
         SimpleDateFormat sdf = new SimpleDateFormat("mm/dd/yyyy");
         sdf.setLenient(true);
         binder.registerCustomEditor(Date.class, new CustomDateEditor(sdf, true));
+        //check that a currency validator was added to the fields
+        binder.registerCustomEditor(Currency.class, "shippingCost", new CurrencyEditor());
+        binder.registerCustomEditor(Currency.class, "productCost", new CurrencyEditor());
         }
 
 }

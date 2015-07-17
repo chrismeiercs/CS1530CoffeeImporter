@@ -5,13 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 
-    <script type="text/javascript">
 
-        $(document).ready(function() {
-            $('.dateReceived').datepicker();
-        });
-
-    </script>
 
 </head>
 <body>
@@ -20,9 +14,9 @@
 
     Enter Shipment ID: <input type="text" th:field="*{shipmentId}" />
     <br></br>
-    Enter Total Cost: <input type="text" th:field="*{totalCost}" />
+    Enter Total Cost: $<input type="text" th:field="*{totalCost}" />
     <br></br>
-    Enter Cost of Products: <input type="text" th:field="*{productCost}" />
+    Enter Cost of Products: $<input type="text" th:field="*{productCost}" />
      <br></br>
     Date Shipment Arrived: <input type="text" th:field="*{dateReceived}" id="dateReceived" />  Format: mm/dd/yyyy
     <br></br>
