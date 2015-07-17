@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="info.cukes:cucumber-spring:1.0.0-RC3" type="repository">
+    <properties maven-id="info.cukes:cucumber-spring:1.0.0-RC3" />
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/info/cukes/cucumber-spring/1.0.0-RC3/cucumber-spring-1.0.0-RC3.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

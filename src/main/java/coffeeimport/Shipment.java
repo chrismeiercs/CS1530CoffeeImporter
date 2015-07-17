@@ -1,10 +1,8 @@
 package coffeeimport;
 
-import org.parse4j.ParseObject;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
@@ -17,8 +15,7 @@ import java.util.LinkedList;
 public class Shipment {
     /**
      * Instantiate each case in the event one is not given a value
-     * Prevents NullPointerExceptions...Will remove values once
-     * a better empty case handling solution is implement.
+     * Prevents NullPointerExceptions
      */
 
     private String shipmentId ="";
@@ -30,9 +27,26 @@ public class Shipment {
     private LinkedList<Product> products = new LinkedList<Product>();
     private double productCost = -1;
     private Date dateReceived = parseDate("1200-01-01");    // 1200 Jan 1 00:00:00 EST 2
+    
+    /*private String shipmentId;
+    private double pricePerKg;
+    @DateTimeFormat(pattern="MM/dd/yyyy")
+    private Date dateReceived;
+    private String origin;
+    private double weight;
+    private double shippingCost;
+    private double totalCost;
+    private LinkedList<Product> products;
+    private double productCost;
+*/
+    //throws exception so that error can be caught and easily displayed to the user
+    //Check is more natural to happen here
 
-
-    //Methods that use this method need to be able to throw an exception as well
+    /**
+        @return calculated shipping cost for this instance
+        @throws Exception The cost of the products can not be greater that the total cost of the shipment
+     **/
+    
     public double calculateShippingCost() throws Exception {
 
         if(this.productCost > this.totalCost){
@@ -45,78 +59,143 @@ public class Shipment {
     }
 
     /**
-     * This are all of our Setter and getter methods
+     * Get the cost of all products from this shipment
+     * @return  Cost of all products summed together
      */
 
     public double getProductCost() {
         return productCost;
     }
 
+    /**
+     * Sets the summed cost of all products in the shipment
+     * @param productCost
+     */
+
     public void setProductCost(double productCost) {
         this.productCost = productCost;
     }
+
+    /**
+     * Return the shipment cost of this shipment
+     * @return shipping cost of the shipment
+     */
 
     public double getShippingCost() {
         return this.shippingCost;
     }
 
+    /**
+     * Gets the total cost of this shipment
+     * @return total cost of shipment
+     */
     public double getTotalCost(){
         return this.totalCost;
     }
 
+    /**
+     * Sets the total cost of the shipment
+     * @param totalCost total cost of the shipment
+     */
     public void setTotalCost(double totalCost){
         this.totalCost = totalCost;
     }
 
-
+    /**
+     * Set the weight of the shipment in Kg
+     * @param weight weight of the shipment in Kg
+     */
     public void setWeight(double weight) {
         this.weight = weight;
     }
+
+    /**
+     * Get the weight of the shipment
+     * @return weight of the shipment
+     */
 
     public double getWeight() {
         return weight;
     }
 
+    /**
+     * Get the date the shipment was received
+     * @return date received
+     */
     public Date getDateReceived() {
         return dateReceived;
     }
 
+    /**
+     * Get the price per Kg of the shipment
+     * @return price per Kg
+     */
     @ModelAttribute("pricePerKg")
     public double getPricePerKg() {
         return pricePerKg;
     }
 
+    /**
+     * Get where the shipment was sent from
+     * @return location where the shipment was sent from
+     */
     public String getOrigin() {
         return origin;
     }
 
+    /**
+     * Get the shipment id
+     * @return shipment id
+     */
     public String getShipmentId() {
         return shipmentId;
     }
 
     public LinkedList<Product> getProducts(){ return products; }
 
+    /**
+     * Sets the date the shipment was received
+     * @param dateReceived
+     */
     public void setDateReceived(Date dateReceived) {
         this.dateReceived = dateReceived;
     }
+
+    /**
+     * Sets the origin for the shipment
+     * @param origin Name of the shipment's origin
+     */
 
     public void setOrigin(String origin) {
         this.origin = origin;
     }
 
+    /**
+     * Set the price per Kg to either the calculated price or a price desired by the user
+     * @param pricePerKg price per kg for the shipment products
+     */
+
     public void setPricePerKg(double pricePerKg) {
         this.pricePerKg = pricePerKg;
     }
 
+    /**
+     * Set the shipment id to the one specified by the user
+     * @param shipmentId id of the shipment
+     */
+
     public void setShipmentId(String shipmentId) {
         this.shipmentId = shipmentId;
     }
-
+    
+    /**
+     * Set the shipping cost of the shipment
+     * @param shippingCost cost of shipping
+     */
     public void setShippingCost(double shippingCost){
         this.shippingCost = shippingCost;
     }
-
-
+    
     /**
      *
      * @param product - Product to be added this shipment's inventory
@@ -147,7 +226,5 @@ public class Shipment {
             return null;
         }
     }
-
-
 
 }
