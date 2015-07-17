@@ -3,6 +3,8 @@ package coffeeimport;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
@@ -26,22 +28,11 @@ public class Shipment {
     private double totalCost = -1;
     private LinkedList<Product> products = new LinkedList<Product>();
     private double productCost = -1;
-    private Date dateReceived = parseDate("1200-01-01");    // 1200 Jan 1 00:00:00 EST 2
-    
-    /*private String shipmentId;
-    private double pricePerKg;
     @DateTimeFormat(pattern="MM/dd/yyyy")
-    private Date dateReceived;
-    private String origin;
-    private double weight;
-    private double shippingCost;
-    private double totalCost;
-    private LinkedList<Product> products;
-    private double productCost;
-*/
+    private Date dateReceived = parseDate("1200-01-01");    // 1200 Jan 1 00:00:00 EST 2
+
     //throws exception so that error can be caught and easily displayed to the user
     //Check is more natural to happen here
-
     /**
         @return calculated shipping cost for this instance
         @throws Exception The cost of the products can not be greater that the total cost of the shipment
@@ -69,7 +60,7 @@ public class Shipment {
 
     /**
      * Sets the summed cost of all products in the shipment
-     * @param productCost
+     * @param productCost Amount of money the product cost to acquire
      */
 
     public void setProductCost(double productCost) {
@@ -155,7 +146,7 @@ public class Shipment {
 
     /**
      * Sets the date the shipment was received
-     * @param dateReceived
+     * @param dateReceived Date the shipment was received
      */
     public void setDateReceived(Date dateReceived) {
         this.dateReceived = dateReceived;
@@ -215,6 +206,7 @@ public class Shipment {
 
     /**
      * This method is used to generate the default date object
+     * Necessary to prevent odd occurrences in Parse;  Helps follow Null Object Pattern
      * @param date this is the String date that will be converted into a Date Object
      * @return On success, returns a Date object created from the String parameter.
      *          On failure, returns a null Date object.
@@ -226,5 +218,7 @@ public class Shipment {
             return null;
         }
     }
+
+
 
 }

@@ -7,6 +7,7 @@ import org.parse4j.callback.FindCallback;
 import org.parse4j.callback.LoginCallback;
 import org.parse4j.callback.SaveCallback;
 
+import javax.security.auth.login.LoginException;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -76,8 +77,7 @@ public class ParseAccessor {
 
     public boolean updateShipment(Shipment shipment){
 
-        //ParseFile file;
-        //byte[] bytes;
+
         boolean shipmentSuccess;
         ParseObject inventoryShipment = new ParseObject("Shipments");
         inventoryShipment.put("ShipmentID", shipment.getShipmentId());
@@ -88,7 +88,7 @@ public class ParseAccessor {
         inventoryShipment.put("Origin", shipment.getOrigin());
         inventoryShipment.put("DateReceived", shipment.getDateReceived());
         inventoryShipment.put("PricePerKg", shipment.getPricePerKg());
-        //inventoryShipment.put("LinkedListOfProducts", shipment.getProducts());      //Storing the LinkedList as an Object Object in Parse
+
 
 
 
@@ -218,7 +218,7 @@ public class ParseAccessor {
             @Override
             public void done(List<ParseObject> list, ParseException e) {
                 if(list!=null && list.size()>=1){                      //There was more than one of this product for some reason; If size === 1 -> Happy Path
-                    for(int i=0;i<list.size();i++){                     //Considering we are switching to inline deletion, there should only ever be one item in the list
+                    for(int i=0;i<list.size();i++){                     //Same case as above.  Switching to inline deletion
                         temp = list.get(i);
                         temp.deleteInBackground(new DeleteCallback() {
                             @Override
@@ -249,14 +249,14 @@ public class ParseAccessor {
      * @param password  The user's password
      * @return  Returns corresponding ParseUser if one exists, else returns null indicating a lack of such
      */
-    public ParseUser verifyParseUser(String username, String password){
+    public ParseUser verifyParseUser(String username, String password) throws Exception{
         boolean result;
         ParseUser user;
         try {           //Attempt to login
             user = ParseUser.login(username, password);
         }
         catch (ParseException e){       //Indicates error in logging in
-            user = null;
+            throw new LoginException("Incorrect Username and/or Password");
         }
         return user;
     }

@@ -7,7 +7,8 @@
  *These tests were ran mulitple times with varying conditions to ensure no bugs or errors were present.
  *The following lines of code represent the a fraction of the testing that was performed.  You can
  *copy and paste the code back into the CoffeeImportApplication class right after the initialization of the
- *ParseAccessor to see the results in Parse.
+ *ParseAccessor to see the results in Parse.  Be sure to add "throws Exception" to the main method so that one of the
+ *tests can run.
  *
  */
 
@@ -54,7 +55,9 @@
                     System.out.println("Stopped the bad guy!");
             }
             else{       //The user actually does exist and successfully logged on
-                    throw new Exception("Something went wrong.");
+                    throw new Exception("You shouldn't have been able to log in");  //This implies that either "Alice" exists as a user with the
+                                                                                    //password "Hax", or the database is corrupt and allows anyone to
+                                                                                    //login with any combination of username and password.
             }
 
             //Part 3: Non-successful Login Attempt (Wrong Password)
@@ -63,7 +66,10 @@
                     System.out.println("Stopped the bad guy!");
             }
             else{       //The user exists and logged in with the wrong password; Bad!
-                    throw new Exception("Something went wrong.");
+                    throw new Exception("You logged in with the wrong password");       //This implies that either "User" exists with the password
+                                                                                        //"AliceInDisguise", which shouldn't be the case because repeat users
+                                                                                        //aren't allowed in Parse, or database is corrupt and allows anyone to
+                                                                                        //login with any password as long as they have a correct username.
             }
 
         ////////////////////////////////////////////////

@@ -12,7 +12,7 @@ import java.util.Date;
 @SpringBootApplication
 public class CoffeeImportApplication {
 
-    public static void main(String[] args) throws Exception{
+    public static void main(String[] args) {
         SpringApplication.run(CoffeeImportApplication.class, args);
 
 
