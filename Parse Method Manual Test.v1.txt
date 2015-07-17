@@ -1,4 +1,5 @@
 //Created by Adam Rison
+//Updated by Adam Rison 7/16/2015
 
 /**The following code was added to the main file of our program for manual testing with the Parse database:
  *CS1530CoffeeImporter>src>main>java>coffeeimport>CoffeeImportApplication.class
@@ -11,6 +12,81 @@
  */
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+            /**
+             * Only one user exists in the database during this test.  This user has the username "User"
+             * and password "Password"
+             *
+             * Part 1:
+             *  The following code logs into the Parse database with the username "User"
+             *  and the password "Password".  If the login is successful, that means that
+             *  a user with the name "User" exists and has the password "Password"
+             *  If the login was failed, there is no such user or connection to Parse was
+             *  unsuccessful.
+             *
+             *  Part 2:
+             *  The following code attempts to log into the Parse database with an
+             *  invalid username, "Alice", and password, "Hax".  The test is successful
+             *  if there is a failure to log in, because no such ParseUser exists.  The
+             *  test fails if for some reason "Alice" does log in and "all our base are belong to them".
+             *
+             *  Part 3:
+             *  The following code attempts to log into the Parse database with a
+             *  correct username, "User", but an incorrect password, "AliceInDisguise".
+             *  The test fails if there is a successful login, and will throw an exception.
+             *  The test passes if there is not a successful login, implying that the login
+             *  system works appropriately.
+             */
+
+        ///////////////////////////////////////////////
+            //Part 1: Successful Login Attempt
+            ParseUser parseUser1 = parseAccessor.verifyParseUser("User", "Password");
+            if(parseUser1 == null){
+                    throw new Exception("No good!");
+            }
+            else{
+                    System.out.println("Success!");
+            }
+
+            //Part 2: Non-successful Login Attempt (No such user)
+            ParseUser parseUser2 = parseAccessor.verifyParseUser("Alice", "Hax");
+            if(parseUser2 == null){     //This user doesn't exist
+                    System.out.println("Stopped the bad guy!");
+            }
+            else{       //The user actually does exist and successfully logged on
+                    throw new Exception("Something went wrong.");
+            }
+
+            //Part 3: Non-successful Login Attempt (Wrong Password)
+            ParseUser parseUser3 = parseAccessor.verifyParseUser("User", "AliceInDisguise");
+            if(parseUser3 == null){     //This user exists, but did not log in because of the wrong password
+                    System.out.println("Stopped the bad guy!");
+            }
+            else{       //The user exists and logged in with the wrong password; Bad!
+                    throw new Exception("Something went wrong.");
+            }
+
+        ////////////////////////////////////////////////
+
+            /**
+             * Results from Parse:
+             *
+             * Part 1 prints "Success" indicating a successful log in.  The
+             * user "User" was successfully retrieved.
+             * Test: Success
+             *
+             * Part 2 prints "Stopped the bad guy!", implying that the login
+             * attempt was unsuccessful because the user "Alice" does not exist.
+             * Test: Success
+             *
+             * Part 3 prints "Stopped the bad guy!", implying that the login
+             * attempt was unsuccessful because the wrong password was used.
+             * Test: Success
+             *
+             */
+
+
+
 
         //Initialize Objects
         Shipment testShipment = new Shipment();
@@ -35,7 +111,7 @@
         productB.setProductId("ABC");
         productB.setProductWeight(3.80);
 
-        //Set Shipment Values
+        //Set Shipment Values  (Also test null Date case)
         testShipment.setOrigin("Mexico");
         testShipment.setWeight((double)Math.round(1000.0*(productA.getProductWeight()+productB.getProductWeight()))/1000);        //Combined weight
         testShipment.setProductCost((double) Math.round(100.0*(productA.getProductCost()+productB.getProductCost()))/100);       //Combined price
@@ -50,6 +126,7 @@
 
         productA.setShipmentId(testShipment.getShipmentId());
         productB.setShipmentId(testShipment.getShipmentId());
+
 
         //Send Everything to Parse
         parseAccessor.updateShipment(testShipment);
@@ -73,8 +150,7 @@
          *  ShippingCost:  7.97
          *  TotalCost:  24.91
          *  ProductCost: 16.94
-         *  Products: Undefined
-         *  DateReceived: Undefined
+         *  DateReceived: Jan 1, 1200, 05:00  (Default case)
          *
          *
          * In Products Class:
@@ -167,24 +243,32 @@
          *  Test: Passed
          */
 
-        testShipment.addProductToShipment(productB);
-        productB.setShipmentId(testShipment.getShipmentId());
-        parseAccessor.updateShipment(testShipment);
-        parseAccessor.updateProduct(productB);
-        parseAccessor.updateShipmentList(testShipment.getShipmentId(), productA, false);
-        parseAccessor.updateShipmentList(testShipment.getShipmentId(), productB, true);
+
+            //Set a date for the shipment
+            testShipment.setDateReceived(new SimpleDateFormat("yyyy-MM-dd").parse("2015-05-21"));
+            //Store it into Parse again and check if the date was properly stored
+            parseAccessor.updateShipment(testShipment);
 
         /**
-         *
+         * The point of this test was to see if dates are properly stored in Parse for Shipments
+         * 
          * Results in Parse:
          *
-         * Both calls to ParseAccessor.updateShipmentList(String, Product, Boolean)
-         * currently do not affect Parse in anyway.  However, they yield no errors
-         * and they do not corrupt any of the data of other classes.
-         * Shipment testShipment and Product productB both appear normally
-         * the same way they did earlier.
+         * In Shipments Class:
          *
+         *  objectId: Ow6TxIC1ko (Will be different upon generation of object)
+         *  ShipmentID: Id.123
+         *  createdAt: 2015-07-02T05:52:47.384Z
+         *  updatedAt: 2015-07-02T05:52:47.384Z
+         *  PricePerKg: 2.17
+         *  Origin:  Mexico
+         *  Weight: 7.82
+         *  ShippingCost:  7.97
+         *  TotalCost:  24.91
+         *  ProductCost: 16.94
+         *  DateReceived:  May 21, 2015  (Correct Date)
+         *
+         * 
          *  Test: Passed
          */
-
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////

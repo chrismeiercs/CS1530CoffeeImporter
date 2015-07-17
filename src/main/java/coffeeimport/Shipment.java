@@ -3,6 +3,8 @@ package coffeeimport;
 import org.parse4j.ParseObject;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
@@ -19,22 +21,18 @@ public class Shipment {
      * a better empty case handling solution is implement.
      */
 
-    //Todo Create appropriate default date
-
     private String shipmentId ="";
     private double pricePerKg = -1;
-    private Date dateReceived = new Date(0);    //Should reference January 1st, 1970
     private String origin = "";
     private double weight = -1;
     private double shippingCost = -1;
     private double totalCost = -1;
     private LinkedList<Product> products = new LinkedList<Product>();
     private double productCost = -1;
+    private Date dateReceived = parseDate("1200-01-01");    // 1200 Jan 1 00:00:00 EST 2
 
 
-    //Todo this method cannot be accessed by some classes
-
-
+    //Methods that use this method need to be able to throw an exception as well
     public double calculateShippingCost() throws Exception {
 
         if(this.productCost > this.totalCost){
@@ -125,13 +123,9 @@ public class Shipment {
      *          Also, updates product's shipmentId if it has not already been set
      * @return  True upon successful addition; False upon Failure
      */
-    //Todo Might need modification
+
     public boolean addProductToShipment(Product product){
         boolean result = false;
-
-        if(product.getShipmentId().equals("")){     // If the product's shipment ID was not set beforehand,
-            product.setShipmentId(shipmentId);      // set the product's shipmentID to the shipment it was added to.
-        }                                           // Todo This is only here until the proper empty value handling code is made.  Good for an edge case
 
         products.add(product);
         if(products.add(product)){
@@ -139,5 +133,21 @@ public class Shipment {
         }
         return result;
     }
+
+    /**
+     * This method is used to generate the default date object
+     * @param date this is the String date that will be converted into a Date Object
+     * @return On success, returns a Date object created from the String parameter.
+     *          On failure, returns a null Date object.
+     */
+    public static Date parseDate(String date) {
+        try {
+            return new SimpleDateFormat("yyyy-MM-dd").parse(date);
+        } catch (ParseException e) {
+            return null;
+        }
+    }
+
+
 
 }
