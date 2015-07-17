@@ -68,21 +68,16 @@ function getShipmentsTable()
                 //Assign different attributes to the element.
                 deleteBtn.type = "button";
                 deleteBtn.value = "Delete";
-                deleteBtn.setAttribute("id", shipmentID);
-               /* elem = document.createElement("input");
-                elem.id ='btnGumb';
-                elem.value = 'x close';
-                elem.type = 'button';
-                elem.onclick = window.close();
-                */
+                deleteBtn.setAttribute("id", shipmentID); // Delete based on shipment ID
                 deleteBtn.onclick = function() { // Note this is a function
                     alert("Shipment " + this.id + " deleted");
+                    // Find row with this shipment ID and delete from parse
                     query.equalTo("ShipmentID",this.id);
                     query.first({
                         success: function(shipment) {
                             //alert("Found product");
                             shipment.destroy({}); // Remove
-                            location.reload();
+                            location.reload(); // reload page for updated table
                         },
                         error: function(error) {
                             alert("Error: Could not remove shipment");
