@@ -41,6 +41,29 @@ public class Shipment {
         return this.shippingCost;
     }
 
+    public LinkedList<Product> getProducts(){ return products; }
+
+    /**
+     *
+     * @param product - Product to be added this shipment's inventory
+     *          Also, updates product's shipmentId if it has not already been set
+     * @return  True upon successful addition; False upon Failure
+     */
+    //Todo Might need modification
+    public boolean addProductToShipment(Product product){
+        boolean result = false;
+
+        if(product.getShipmentId().equals("")){     // If the product's shipment ID was not set beforehand,
+            product.setShipmentId(shipmentId);      // set the product's shipmentID to the shipment it was added to.
+        }                                           // Todo This is only here until the proper empty value handling code is made.  Good for an edge case
+
+        products.add(product);
+        if(products.add(product)){
+            result = true;
+        }
+        return result;
+    }
+
     /**
      * Get the cost of all products from this shipment
      * @return  Cost of all products summed together

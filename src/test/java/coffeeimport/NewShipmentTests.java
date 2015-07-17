@@ -17,10 +17,12 @@ public class NewShipmentTests {
 
     Shipment shipment;
     Product product;
+    ParseAccessor parse;
     @Before
     public void setUp() throws Exception{
         shipment = new Shipment();
         product = new Product();
+        parse = new ParseAccessor();
     }
 
     @Test(expected = Exception.class)
