@@ -51,4 +51,13 @@ public class NewShipmentTests {
 
 
     }
+
+    /**
+     * Test method checks that null case Date is properly generated for new Shipment Class
+     * @throws Exception
+     */
+    @Test
+    public void testDefaultShipmentDate() throws Exception{
+        Assert.assertTrue(shipment.getDateReceived().toString().equals("Wed Dec 31 00:00:00 EST 2"));
+    }
 }
