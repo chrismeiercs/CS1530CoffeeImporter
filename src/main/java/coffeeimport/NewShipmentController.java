@@ -34,7 +34,7 @@ public class NewShipmentController {
     public String calcShipmentCosts(@ModelAttribute Shipment shipment, Model model, BindingResult bindingResult){
 
         //if the form is incorrect
-        System.out.println(bindingResult.hasErrors());
+
         if(bindingResult.hasErrors()){
             return "main";
         }
@@ -72,13 +72,14 @@ public class NewShipmentController {
         }
     }
 
-    //sets rules for dateReceived field. If the date is not formatted correctly, an error will occur
+    //sets rules for new shipment submission form
+    //dateReceived field: If the date is not formatted correctly, an error will occur
+    //shippingCost and productCost fields: Must be in the format of currency
     @InitBinder
     public void initBinder(WebDataBinder binder) {
-        SimpleDateFormat sdf = new SimpleDateFormat("mm/dd/yyyy");
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
         sdf.setLenient(true);
         binder.registerCustomEditor(Date.class, new CustomDateEditor(sdf, true));
-        //Add a currency validator was added to the fields
         binder.registerCustomEditor(Currency.class, "shippingCost", new CurrencyEditor());
         binder.registerCustomEditor(Currency.class, "productCost", new CurrencyEditor());
         }

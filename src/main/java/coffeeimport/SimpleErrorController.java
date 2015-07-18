@@ -8,6 +8,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+//replaces the default spring error page with a custom one
+
 @Controller
 
 public class SimpleErrorController implements ErrorController {
@@ -17,7 +19,7 @@ public class SimpleErrorController implements ErrorController {
 
     //when redirected to the error url, show the updateFailure Page
     @RequestMapping(value = PATH)
-    public String error() {
+    public String showErrorPage() {
 
         return "updateFailure";
     }
