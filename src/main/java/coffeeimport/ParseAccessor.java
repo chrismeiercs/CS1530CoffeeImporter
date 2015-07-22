@@ -1,15 +1,19 @@
 package coffeeimport;
 
 import org.parse4j.*;
+import org.parse4j.ParseException;
 import org.parse4j.callback.DeleteCallback;
 import org.parse4j.callback.FindCallback;
+import org.parse4j.callback.LoginCallback;
 import org.parse4j.callback.SaveCallback;
 
+import javax.security.auth.login.LoginException;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.lang.reflect.Array;
+import java.text.*;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -20,6 +24,7 @@ import java.util.List;
  * Created by Chris on 6/20/2015.
  * Updated by Adam on 6/22/2015.
  * Updated "        " 7/3/2015.
+ * Updated "        " 7/14/2015.
  */
 
 
@@ -70,12 +75,9 @@ public class ParseAccessor {
      */
 
 
-    //TODO Possibly return Parse ObjectID as opposed to boolean value; -1 on failure
-    //TODO Make put "Date" functional (Mainly handle Edge Cases)
     public boolean updateShipment(Shipment shipment){
 
-        //ParseFile file;
-        //byte[] bytes;
+
         boolean shipmentSuccess;
         ParseObject inventoryShipment = new ParseObject("Shipments");
         inventoryShipment.put("ShipmentID", shipment.getShipmentId());
@@ -84,14 +86,10 @@ public class ParseAccessor {
         inventoryShipment.put("ShippingCost", shipment.getShippingCost());
         inventoryShipment.put("Weight", shipment.getWeight());
         inventoryShipment.put("Origin", shipment.getOrigin());
-       // inventoryShipment.put("Date", shipment.getDateReceived());
+        inventoryShipment.put("DateReceived", shipment.getDateReceived());
         inventoryShipment.put("PricePerKg", shipment.getPricePerKg());
-        //inventoryShipment.put("LinkedListOfProducts", shipment.getProducts());      //Storing the LinkedList as an Object Object in Parse
 
-        //Todo, implement these lines of code;  At the moment, this seems like the only option
-        //bytes = converter.serialize(shipment.getProducts());          //Use this to convert the LinkedList to a byte array so that it can be stored as a ParseFile
-        //file = new ParseFile("ProductList.txt", bytes);                   //It appears that the third-party library function that stores Object is disfunctional
-        //inventoryShipment.put("Products", file);                      //so this is the easiest method until a fix has been found
+
 
 
         inventoryShipment.saveInBackground(new SaveCallback() {
@@ -113,7 +111,7 @@ public class ParseAccessor {
      *   Takes in a Shipment Object, determines if it exists in the Parse database, and deletes it if it does exist
      * @return Boolean value: True if deletion of Shipment Object successful, False if error occurred while deleting in background
      */
-    //TODO if shipment is deleted, delete it's products
+
     public boolean deleteShipment(Shipment shipment){
         boolean shipmentSuccess;
         String id = shipment.getShipmentId();
@@ -137,8 +135,7 @@ public class ParseAccessor {
                             }
                         });
                     }
-                } else {
-                    //Todo Represent to user that no such shipment exists
+                } else {//Considering we are switching to inline deletion, the list should always have an item and never see this else case
                     success = false;
                 }
             }
@@ -185,8 +182,7 @@ public class ParseAccessor {
         inventoryProduct.put("PriceListedForSale", product.getPriceListedForSale());
 
         inventoryProduct.put("ShipmentID", product.getShipmentId());
-        //Todo
-        updateShipmentList(product.getShipmentId(), product, false);
+
 
 
         inventoryProduct.saveInBackground(new SaveCallback() {
@@ -213,7 +209,7 @@ public class ParseAccessor {
      * @return True upon successful interaction with Parse
      */
 
-    public boolean deleteProduct(Product product){      //Todo: modify this so that product will be removed from Shipment inventory list
+    public boolean deleteProduct(Product product){
 
         boolean productSuccess;
         ParseQuery<ParseObject> query  = ParseQuery.getQuery("Products");
@@ -222,21 +218,19 @@ public class ParseAccessor {
             @Override
             public void done(List<ParseObject> list, ParseException e) {
                 if(list!=null && list.size()>=1){                      //There was more than one of this product for some reason; If size === 1 -> Happy Path
-                    //Todo Need to establish Product ID'ing format, otherwise cannot assume that user wants to delete every item with the same ProductID...Could be a problem
-                    for(int i=0;i<list.size();i++){
+                    for(int i=0;i<list.size();i++){                     //Same case as above.  Switching to inline deletion
                         temp = list.get(i);
                         temp.deleteInBackground(new DeleteCallback() {
                             @Override
                             public void done(ParseException e) {
-                                if(e!=null){
+                                if(e!=null){        //There was an error in deleting
                                     success=false;
                                 }
                             }
                         });
                     }
                 }
-                else{
-                    //Todo Represent to user that no such product exists
+                else{   //Considering we are switching to inline deletion, the list should always have an item and never see this else case
                     success = false;
                 }
             }
@@ -249,100 +243,22 @@ public class ParseAccessor {
     }
 
     /**
-     * Upon creating a new product, its ID will be added to the array of its corresponding shipment in Parse
-     * OR if this was called during the deletion of the product, this will remove the product from the
-     *    Shipment's array in Parse
-     * @param shipment - String Id of the Shipment
-     * @param product - String Id of the product
-     * @param deletion - Boolean denoting if this is addition or deletion
-     * @return Returns true if there were no errors
+     * This method checks that the person trying to access the data base is actually
+     * someone allowed to.
+     * @param username  Username address of the user
+     * @param password  The user's password
+     * @return  Returns corresponding ParseUser if one exists, else returns null indicating a lack of such
      */
-
-    public boolean updateShipmentList(String shipment, final Product product, final boolean deletion) {
-        boolean updateSuccess;
-        ParseQuery<ParseObject> query  = ParseQuery.getQuery("Shipments");
-        query.whereEqualTo("ShipmentID", shipment);
-        query.findInBackground(new FindCallback<ParseObject>() {
-            @Override
-            public void done(List<ParseObject> list, ParseException e) {
-                if(e==null && list!=null) {
-                    if (list.size() <= 0 || list.size() > 1) {
-                        //Todo This shipment does not exist, inform user OR there is more than one shipment with the same ID, this should never be the case
-                        success = false;
-                    } else {       //Only one shipment matched
-                        LinkedList<Product> products;
-
-                        if (!deletion) {        //This is an addition; Append the product to the Shipment's LinkedList
-
-                            //Need to re-adjust strategy
-                            //Currently trying to convert LinkedList to a ParseFile via byte array
-                            //and then bring it back with the commented out code below. VVV
-                            //Currently yields an unhandled exception error that I cannot fix >> Looking for advice
-
-                           /* ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                            FileInputStream fis = new FileInputStream(list.get(0).getParseFile("Products").getUrl());
-
-                            byte[] buf = new byte[1024];
-                            int n;
-                            while (-1 != (n = fis.read(buf)))
-                                baos.write(buf, 0, n);
-
-                            byte[] videoBytes = baos.toByteArray(); //this is the video in bytes.
-                            */
-
-                            //products = (LinkedList<Product>)list.get(0).get("LinkedListOfProducts");
-                           //todo products.add(product);
-
-
-                        } else {                   //This is a deletion; Remove the product from the LinkedList
-
-                            //These lines will break the code if implemented the way they are.
-                            //The third-party library functions appear to be broken for certain features
-
-                            //products = (LinkedList<Product>) list.get(0).get("LinkedListOfProducts");
-                            //if(!products.remove(product)){
-                                //Product was not in the shipment
-                                //Todo represent this to the user
-                            //}
-                        }
-
-                       //todo list.get(0).put("LinkedListOfProducts", products);
-                        list.get(0).saveInBackground(new SaveCallback() {
-                            @Override
-                            public void done(ParseException e) {
-                                if(e!=null){
-                                    //Todo represent error
-                                    success=false;
-                                }
-                            }
-                        });
-                    }
-                }
-                else{   //If this is the case, something bad has happened;  One such case, no such shipment exists
-                    success = false;
-                }
-            }
-        });
-
-        updateSuccess = success;
-        success = true;
-        return updateSuccess;
+    public ParseUser verifyParseUser(String username, String password) throws Exception{
+        boolean result;
+        ParseUser user;
+        try {           //Attempt to login
+            user = ParseUser.login(username, password);
+        }
+        catch (ParseException e){       //Indicates error in logging in
+            throw new LoginException("Incorrect Username and/or Password");
+        }
+        return user;
     }
-
-    /**
-     *
-     * @param ship
-     * This was only a test method to ensure the connection to Parse
-     * was stable.  Calling this method successfully creates an Object in
-     * a Parse Class "T" with one value, "a", in a column labeled "a".
-     * It will be removed before the final web app is complete
-     * @return ParseObject that was saved in Background
-     */
-    /*public ParseObject shipmentCreationExampleMethod(Shipment ship){
-        ParseObject inventoryShipment = new ParseObject("T");
-        inventoryShipment.put("a", "a");
-        inventoryShipment.saveInBackground();
-        return inventoryShipment;
-    }*/
 
 }
